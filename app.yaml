@@ -1,0 +1,57 @@
+# Pharmaceutical Compliance RAG Configuration
+# This YAML configuration file sets up the document indexing pipeline for pharmaceutical regulatory documents.
+
+# Data sources for pharmaceutical regulatory documents
+$sources:
+  # Local file system connector for Gazette of India PDFs and regulatory documents
+  - !pw.io.fs.read
+    path: data
+    format: binary
+    with_metadata: true
+
+# Embedding model optimized for pharmaceutical and legal text
+$embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+
+# Embedder configuration for pharmaceutical document embeddings
+$embedder: !pw.xpacks.llm.embedders.SentenceTransformerEmbedder
+  model: $embedding_model
+  call_kwargs: 
+    show_progress_bar: False
+
+# Text splitter optimized for regulatory documents
+$splitter: !pw.xpacks.llm.splitters.TokenCountSplitter
+  max_tokens: 400
+
+# Parser configuration for pharmaceutical PDFs and regulatory documents
+$parser: !pw.xpacks.llm.parsers.UnstructuredParser
+  cache_strategy: !pw.udfs.DefaultCache {}
+
+# Vector retriever optimized for pharmaceutical document search
+$retriever_factory: !pw.stdlib.indexing.BruteForceKnnFactory
+  reserved_space: 1000
+  embedder: $embedder
+  metric: !pw.stdlib.indexing.BruteForceKnnMetricKind.COS
+
+# LLM configuration for pharmaceutical query answering
+$llm_model: "gpt-3.5-turbo"
+
+$llm: !pw.xpacks.llm.llms.OpenAIChat
+  model: $llm_model
+  temperature: 0.1
+  max_tokens: 500
+
+# Main document store for pharmaceutical compliance documents
+document_store: !pw.xpacks.llm.document_store.DocumentStore
+  docs: $sources
+  parser: $parser
+  splitter: $splitter
+  retriever_factory: $retriever_factory
+  llm: $llm
+
+# Server configuration
+host: "0.0.0.0"
+port: 8000
+
+# Performance and caching settings
+with_cache: true
+terminate_on_error: false

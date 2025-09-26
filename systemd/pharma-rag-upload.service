@@ -1,0 +1,26 @@
+[Unit]
+Description=Pharmaceutical RAG System - Upload Server
+After=network.target
+
+[Service]
+Type=simple
+User=pharma-rag
+Group=pharma-rag
+WorkingDirectory=/opt/pharma-rag
+Environment=PATH=/opt/pharma-rag/venv/bin
+ExecStart=/opt/pharma-rag/venv/bin/python3 upload_server.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pharma-rag-upload
+
+# Security settings
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/pharma-rag/data /opt/pharma-rag/logs
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

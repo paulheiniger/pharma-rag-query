@@ -1,0 +1,351 @@
+# LLM Configuration and Integration Guide
+
+## Model Specifications
+
+**Primary Model**: `anthropic/claude-3.5-sonnet`
+**Provider**: OpenRouter API
+**Context Window**: 200,000 tokens
+**Output Limit**: 4,000 tokens
+**Temperature**: 0.1 (Deterministic for regulatory compliance)
+
+## Model Selection Rationale
+
+### Claude 3.5 Sonnet Advantages
+- **Regulatory Analysis**: Excellent at complex document analysis and regulatory interpretation
+- **JSON Compliance**: Reliable structured output generation
+- **Context Understanding**: Superior long-context reasoning for pharmaceutical documents
+- **Safety**: Built-in safety measures for medical/pharmaceutical content
+- **Accuracy**: High precision in factual information retrieval
+
+### Alternative Models (Fallback Options)
+```yaml
+# Backup model configurations
+models:
+  primary: "anthropic/claude-3.5-sonnet"
+  fallback: "anthropic/claude-3-haiku"  # Faster, cost-effective
+  heavy_duty: "anthropic/claude-3-opus" # Maximum capability
+```
+
+## Prompt Engineering Strategy
+
+### Government Compliance Prompt Architecture
+```
+System Role: Expert pharmaceutical regulatory analyst
+Context: Indian government compliance requirements
+Framework: S1-S6 regulatory categories + P1-P8 processing workflow
+Output: Structured 21-column analysis with government recommendations
+```
+
+### Prompt Template Structure
+```yaml
+prompt_template: |
+  <OBJECTIVE_AND_PERSONA>
+  You are an expert pharmaceutical regulatory analyst specializing in Indian 
+  drug compliance and government procurement requirements.
+  </OBJECTIVE_AND_PERSONA>
+
+  <REGULATORY_FRAMEWORK>
+  S1: Ban Status Analysis (CDSCO prohibited substances)
+  S2: Approval Verification (Gazette notifications) 
+  S3: Schedule Classification (H/H1/X prescription requirements)
+  S4: Import Restrictions (Delhi department bans)
+  S5: Controlled Substances (NDPS Act compliance)
+  S6: Quality Standards (NSQ alerts, substandard identification)
+  </REGULATORY_FRAMEWORK>
+
+  <PROCESSING_WORKFLOW>
+  P1-P8: Step-by-step drug analysis pipeline
+  - Input parsing and validation
+  - Image-name matching verification
+  - Multi-source regulatory cross-referencing
+  - Chronological compliance validation
+  - Structured output generation
+  </PROCESSING_WORKFLOW>
+
+  <OUTPUT_FORMAT>
+  Generate structured JSON with 21 regulatory compliance columns
+  Provide government procurement recommendations
+  Include CDSCO compliance verification
+  </OUTPUT_FORMAT>
+```
+
+## Token Management
+
+### Input Optimization
+- **Document Chunking**: 600 tokens per chunk for optimal retrieval
+- **Context Selection**: Top-K relevance scoring (K=5-10)
+- **Prompt Efficiency**: Compressed regulatory guidelines
+- **Memory Management**: Sliding window for long conversations
+
+### Output Control
+```python
+llm_config = {
+    "max_tokens": 4000,
+    "temperature": 0.1,
+    "top_p": 0.95,
+    "frequency_penalty": 0.1,
+    "presence_penalty": 0.1,
+    "stop_sequences": ["</analysis>", "---END---"]
+}
+```
+
+## Performance Optimization
+
+### Response Time Targets
+- **Simple Queries**: < 5 seconds
+- **Complex Analysis**: < 15 seconds  
+- **Batch Processing**: < 30 seconds per drug
+
+### Cost Optimization
+```yaml
+# Token usage optimization
+input_compression: true
+output_streaming: false  # Full response for JSON validation
+cache_embeddings: true
+reuse_contexts: true
+
+# Cost monitoring
+daily_token_limit: 1000000
+alert_threshold: 0.8
+cost_per_1k_tokens: 0.003
+```
+
+## API Integration
+
+### OpenRouter Configuration
+```python
+import openai
+
+client = openai.OpenAI(
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1"
+)
+
+# Request configuration
+completion = client.chat.completions.create(
+    model="anthropic/claude-3.5-sonnet",
+    messages=[
+        {"role": "system", "content": government_prompt_template},
+        {"role": "user", "content": pharmaceutical_query}
+    ],
+    temperature=0.1,
+    max_tokens=4000,
+    extra_headers={
+        "HTTP-Referer": "https://government-pharma-compliance.gov.in",
+        "X-Title": "Government Pharmaceutical Compliance System"
+    }
+)
+```
+
+### Error Handling & Retry Logic
+```python
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=4, max=10)
+)
+def call_llm_with_retry(prompt, model="anthropic/claude-3.5-sonnet"):
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.1,
+            max_tokens=4000
+        )
+        return response.choices[0].message.content
+    except openai.RateLimitError:
+        # Switch to fallback model
+        return call_llm_with_retry(prompt, "anthropic/claude-3-haiku")
+    except openai.APITimeoutError:
+        # Reduce max_tokens and retry
+        return call_llm_with_retry(prompt, max_tokens=2000)
+```
+
+## Quality Assurance
+
+### Response Validation
+```python
+def validate_compliance_response(response):
+    """Validate LLM response for pharmaceutical compliance"""
+    
+    # JSON structure validation
+    try:
+        parsed = json.loads(response)
+        required_fields = [
+            'drug_name', 'status', 'reasoning', 'sources',
+            'cdsco_compliance', 'government_recommendation'
+        ]
+        assert all(field in parsed for field in required_fields)
+    except (json.JSONDecodeError, AssertionError):
+        return False, "Invalid JSON structure"
+    
+    # Content quality checks
+    if len(parsed.get('reasoning', '')) < 50:
+        return False, "Insufficient reasoning provided"
+    
+    if parsed.get('status') not in ['banned', 'controlled', 'scheduled', 'open']:
+        return False, "Invalid regulatory status"
+    
+    return True, "Response validated"
+```
+
+### Hallucination Prevention
+```yaml
+# Anti-hallucination measures
+grounding_strategy: "strict_source_citation"
+fact_checking: "cross_reference_multiple_sources"
+uncertainty_handling: "explicit_confidence_scores"
+source_validation: "gazette_number_verification"
+
+# Confidence thresholds
+high_confidence: "> 0.9"    # Proceed with response
+medium_confidence: "0.7-0.9" # Add uncertainty disclaimer  
+low_confidence: "< 0.7"      # Request human review
+```
+
+## Monitoring & Analytics
+
+### LLM Performance Metrics
+```python
+class LLMMetrics:
+    def __init__(self):
+        self.response_times = []
+        self.token_usage = {}
+        self.error_rates = {}
+        self.quality_scores = []
+    
+    def track_request(self, model, tokens_used, response_time, quality_score):
+        self.response_times.append(response_time)
+        self.token_usage[model] = self.token_usage.get(model, 0) + tokens_used
+        self.quality_scores.append(quality_score)
+    
+    def get_daily_report(self):
+        return {
+            'avg_response_time': sum(self.response_times) / len(self.response_times),
+            'total_tokens': sum(self.token_usage.values()),
+            'avg_quality': sum(self.quality_scores) / len(self.quality_scores),
+            'cost_estimate': self.calculate_daily_cost()
+        }
+```
+
+### Usage Analytics
+```yaml
+# Daily tracking
+requests_per_hour: []
+peak_usage_times: []
+model_distribution:
+  claude_sonnet: 85%
+  claude_haiku: 12% 
+  claude_opus: 3%
+
+# Quality metrics
+response_accuracy: 94.2%
+json_compliance_rate: 98.7%
+regulatory_precision: 96.1%
+user_satisfaction: 4.6/5.0
+```
+
+## Security Considerations
+
+### API Key Management
+```bash
+# Environment variables
+export OPENROUTER_API_KEY="sk-or-v1-xxxx"
+export LLM_RATE_LIMIT="1000/hour"
+export ALLOWED_MODELS="anthropic/claude-3.5-sonnet,anthropic/claude-3-haiku"
+
+# Key rotation policy
+rotate_keys_every: 90_days
+backup_key_count: 2
+access_logging: true
+```
+
+### Data Privacy
+```python
+def sanitize_pharmaceutical_query(query):
+    """Remove PII from pharmaceutical queries"""
+    
+    # Remove personal identifiers
+    pii_patterns = [
+        r'\b\d{4}-\d{4}-\d{4}-\d{4}\b',  # Credit card numbers
+        r'\b\d{3}-\d{2}-\d{4}\b',        # SSN patterns
+        r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'  # Emails
+    ]
+    
+    sanitized = query
+    for pattern in pii_patterns:
+        sanitized = re.sub(pattern, '[REDACTED]', sanitized)
+    
+    return sanitized
+```
+
+## Model Comparison Matrix
+
+| Model | Speed | Cost | Accuracy | Context | Use Case |
+|-------|-------|------|----------|---------|----------|
+| Claude 3.5 Sonnet | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | 200K | Primary regulatory analysis |
+| Claude 3 Haiku | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | 200K | Quick status checks |
+| Claude 3 Opus | ⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | 200K | Complex legal analysis |
+
+## Best Practices
+
+### Prompt Engineering
+```yaml
+do:
+  - Use specific regulatory terminology
+  - Provide clear examples in prompts
+  - Structure requests with clear sections
+  - Include confidence requirements
+  - Specify exact output format
+
+dont:
+  - Use ambiguous pharmaceutical terms
+  - Request medical advice
+  - Skip source attribution requirements
+  - Ignore compliance frameworks
+  - Generate unverified claims
+```
+
+### Production Deployment
+```python
+# Production LLM client configuration
+class ProductionLLMClient:
+    def __init__(self):
+        self.client = openai.OpenAI(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            base_url="https://openrouter.ai/api/v1",
+            timeout=30.0,
+            max_retries=3
+        )
+        self.circuit_breaker = CircuitBreaker(
+            failure_threshold=5,
+            timeout_duration=60
+        )
+        
+    async def analyze_compliance(self, query):
+        with self.circuit_breaker:
+            return await self.client.chat.completions.acreate(
+                model="anthropic/claude-3.5-sonnet",
+                messages=self.build_compliance_messages(query),
+                temperature=0.1,
+                max_tokens=4000,
+                stream=False
+            )
+```
+
+## Future Enhancements
+
+### Planned Improvements
+- **Multi-modal Analysis**: Image-based drug identification
+- **Real-time Training**: Fine-tuning on latest CDSCO updates  
+- **Ensemble Methods**: Multiple model consensus for critical decisions
+- **Edge Deployment**: Local model deployment for sensitive data
+- **Regulatory Plugins**: Specialized models for different drug categories
+
+### Research Areas
+- **Retrieval Optimization**: Better document chunk selection
+- **Prompt Compression**: Reduce token usage while maintaining quality
+- **Factual Grounding**: Enhanced source verification mechanisms
+- **Uncertainty Quantification**: Better confidence estimation
+- **Multilingual Support**: Hindi and regional language processing

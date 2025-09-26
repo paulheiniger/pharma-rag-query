@@ -1,0 +1,37 @@
+# Core Pathway dependencies
+pathway[xpacks]>=0.13.0
+
+# Environment and configuration
+python-dotenv>=1.0.0
+
+# OpenAI for LLM-powered queries
+openai>=1.0.0
+
+# Document processing and parsing
+unstructured[all-docs]>=0.11.0
+pypdf>=3.17.0
+python-magic>=0.4.27
+
+# Machine learning and embeddings
+sentence-transformers>=2.2.2
+torch>=2.0.0
+transformers>=4.35.0
+
+# API and web framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Data processing
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Utilities
+requests>=2.31.0
+aiofiles>=23.2.1
+
+# Optional: For SharePoint integration
+# Office365-REST-Python-Client>=2.4.2
+
+# Optional: For Google Drive integration  
+# google-api-python-client>=2.100.0
+# google-auth>=2.23.0

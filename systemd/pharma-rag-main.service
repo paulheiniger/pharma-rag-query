@@ -1,0 +1,27 @@
+[Unit]
+Description=Pharmaceutical RAG System - Main Server
+After=network.target
+Wants=pharma-rag-upload.service
+
+[Service]
+Type=simple
+User=pharma-rag
+Group=pharma-rag
+WorkingDirectory=/opt/pharma-rag
+Environment=PATH=/opt/pharma-rag/venv/bin
+ExecStart=/opt/pharma-rag/venv/bin/python3 app_openrouter.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pharma-rag-main
+
+# Security settings
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/pharma-rag/data /opt/pharma-rag/logs /opt/pharma-rag/cache
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
