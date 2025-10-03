@@ -103,7 +103,12 @@ pharma-rag-query/
    cp /path/to/gazette-documents/*.pdf data/
    ```
 
-5. **Start the Application**
+5. **Setup the env variables**
+   ```export OPENROUTER_API_KEY="dummy-key"
+    export OPENROUTER_API_BASE="dummy-url"
+   ```
+
+6. **Start the Application**
    ```bash
    python app_openrouter_enhanced.py
    ```
@@ -119,7 +124,12 @@ The system is designed for virtual environment deployment:
    ./scripts/start.sh
    ```
 
-2. **Manual Startup**
+2. **Setup the env variables**
+   ```export OPENROUTER_API_KEY="dummy-key"
+    export OPENROUTER_API_BASE="dummy-url"
+   ```
+
+3. **Manual Startup**
    ```bash
    source venv/bin/activate
    python app_openrouter_enhanced.py
