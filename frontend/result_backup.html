@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PharmaSafe - Analysis Results</title>
+<meta name="description" content="Pharmaceutical safety analysis results and recommendations" />
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg,
+            #0f0f23 0%,
+            #1a0a2e 15%,
+            #16213e 30%,
+            #0f3460 45%,
+            #1a0a2e 60%,
+            #16213e 75%,
+            #0f0f23 90%,
+            #0a0a0f 100%);
+        background-size: 400% 400%;
+        animation: backgroundMove 20s ease infinite;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        background-attachment: fixed;
+    }
+
+    @keyframes backgroundMove {
+        0%, 100% { background-position: 0% 50%; }
+        25% { background-position: 100% 25%; }
+        50% { background-position: 50% 100%; }
+        75% { background-position: 25% 75%; }
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+            radial-gradient(ellipse at 15% 20%, rgba(220, 38, 38, 0.4) 0%, transparent 50%),
+            radial-gradient(ellipse at 85% 30%, rgba(147, 51, 234, 0.35) 0%, transparent 45%),
+            radial-gradient(ellipse at 50% 90%, rgba(239, 68, 68, 0.3) 0%, transparent 60%),
+            radial-gradient(ellipse at 70% 10%, rgba(236, 72, 153, 0.25) 0%, transparent 40%),
+            radial-gradient(ellipse at 30% 70%, rgba(168, 85, 247, 0.3) 0%, transparent 55%);
+        animation: backgroundShift 30s ease-in-out infinite;
+        z-index: 0;
+    }
+
+    @keyframes backgroundShift {
+        0%, 100% {
+            opacity: 0.8;
+            transform: scale(1) rotate(0deg);
+        }
+        25% {
+            opacity: 1;
+            transform: scale(1.05) rotate(1deg);
+        }
+        50% {
+            opacity: 0.7;
+            transform: scale(0.95) rotate(-0.8deg);
+        }
+        75% {
+            opacity: 0.9;
+            transform: scale(1.02) rotate(1.2deg);
+        }
+    }
+
+    .main-container {
+        position: relative;
+        z-index: 10;
+        min-height: 100vh;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .back-button {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        background: linear-gradient(135deg, rgba(220, 38, 38, 0.3), rgba(239, 68, 68, 0.4));
+        border: 1px solid rgba(220, 38, 38, 0.5);
+        color: #fca5a5;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        backdrop-filter: blur(25px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .back-button:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(220, 38, 38, 0.5), rgba(239, 68, 68, 0.6));
+        color: #fecaca;
+        box-shadow: 0 12px 40px rgba(220, 38, 38, 0.4);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        margin-top: 2rem;
+        animation: fadeInDown 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #dc2626, #ef4444, #b91c1c);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+        animation: gradientFlow 4s ease-in-out infinite;
+        text-shadow: 0 0 50px rgba(220, 38, 38, 0.3);
+    }
+
+    @keyframes gradientFlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: #94a3b8;
+        margin-bottom: 1rem;
+    }
+
+    .query-display {
+        background: linear-gradient(145deg,
+            rgba(15, 23, 42, 0.95) 0%,
+            rgba(30, 27, 75, 0.9) 100%);
+        border: 2px solid rgba(220, 38, 38, 0.3);
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin-bottom: 3rem;
+        backdrop-filter: blur(25px);
+        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 1s ease-out 0.2s both;
+        position: relative;
+        overflow: hidden;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .query-display::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg,
+            transparent,
+            rgba(220, 38, 38, 0.9),
+            rgba(239, 68, 68, 0.9),
+            rgba(185, 28, 28, 0.9),
+            transparent);
+        animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    .query-label {
+        font-size: 0.9rem;
+        color: #f472b6;
+        text-transform: uppercase;
+        font-weight: 800;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .query-text {
+        font-size: 1.1rem;
+        color: #e2e8f0;
+        line-height: 1.6;
+        font-weight: 500;
+    }
+
+    .results-container {
+        display: grid;
+        gap: 2rem;
+        animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    .analysis-section {
+        background: linear-gradient(145deg,
+            rgba(15, 23, 42, 0.95) 0%,
+            rgba(30, 27, 75, 0.9) 100%);
+        border: 2px solid rgba(220, 38, 38, 0.3);
+        border-radius: 24px;
+        padding: 2.5rem;
+        backdrop-filter: blur(30px);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.4);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .analysis-section:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 80px rgba(220, 38, 38, 0.3);
+        border-color: rgba(220, 38, 38, 0.5);
+    }
+
+    .analysis-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg,
+            transparent,
+            rgba(220, 38, 38, 0.9),
+            rgba(239, 68, 68, 0.9),
+            transparent);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .analysis-section:hover::before {
+        opacity: 1;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+        font-size: 1.5rem;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #f9fafb;
+        margin-bottom: 0.25rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        font-weight: 500;
+    }
+
+    .analysis-content {
+        color: #cbd5e1;
+        line-height: 1.8;
+        font-size: 1rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        position: relative;
+        z-index: 1;
+    }
+
+    .risk-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1.5rem;
+    }
+
+    .risk-low {
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.3));
+        color: #86efac;
+        border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .risk-medium {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.3));
+        color: #fde047;
+        border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+
+    .risk-high {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.3));
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .loading-container {
+        display: none;
+        text-align: center;
+        padding: 4rem;
+    }
+
+    .loading-container.active {
+        display: block;
+    }
+
+    .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(220, 38, 38, 0.3);
+        border-top: 4px solid #dc2626;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 2rem;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .new-search {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+
+    .new-search:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(220, 38, 38, 0.6);
+        background: linear-gradient(135deg, #b91c1c, #dc2626);
+    }
+
+    .status-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 2px solid;
+    }
+
+    .badge-safe {
+        background: rgba(34, 197, 94, 0.1);
+        border-color: rgba(34, 197, 94, 0.3);
+        color: #86efac;
+    }
+
+    .badge-warning {
+        background: rgba(251, 191, 36, 0.1);
+        border-color: rgba(251, 191, 36, 0.3);
+        color: #fde047;
+    }
+
+    .badge-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+    }
+
+    .badge-info {
+        background: rgba(59, 130, 246, 0.1);
+        border-color: rgba(59, 130, 246, 0.3);
+        color: #93c5fd;
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 1rem;
+        }
+        .title {
+            font-size: 2.5rem;
+        }
+        .back-button {
+            top: 1rem;
+            left: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+        .new-search {
+            bottom: 1rem;
+            right: 1rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.85rem;
+        }
+        .analysis-section {
+            padding: 1.5rem;
+        }
+        .status-badges {
+            justify-content: center;
+        }
+    }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(30, 27, 75, 0.3); }
+    ::-webkit-scrollbar-thumb { 
+        background: rgba(220, 38, 38, 0.6); 
+        border-radius: 5px; 
+    }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(220, 38, 38, 0.8); }
+</style>
+</head>
+<body>
+
+<a href="/" class="back-button">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to Home
+</a>
+
+<div class="main-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="title">Analysis Results</div>
+        <div class="subtitle">Pharmaceutical Safety Assessment Report</div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingContainer" class="loading-container active">
+        <div class="spinner"></div>
+        <div class="loading-text">Analyzing pharmaceutical safety data...</div>
+    </div>
+
+    <!-- Query Display -->
+    <div id="queryDisplay" class="query-display" style="display: none;">
+        <div class="query-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            Search Query
+        </div>
+        <div class="query-text" id="queryText"></div>
+    </div>
+
+    <!-- Results Container -->
+    <div id="resultsContainer" class="results-container" style="display: none;">
+        <!-- Safety Assessment -->
+        <div class="analysis-section">
+            <div class="section-header">
+                <div class="section-icon">🛡️</div>
+                <div>
+                    <div class="section-title">Safety Assessment</div>
+                    <div class="section-subtitle">Overall pharmaceutical safety evaluation</div>
+                </div>
+            </div>
+            
+            <div class="status-badges" id="statusBadges"></div>
+            
+            <div class="analysis-content" id="safetyContent">
+                Loading safety analysis...
+            </div>
+        </div>
+
+        <!-- Regulatory Status -->
+        <div class="analysis-section">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <div>
+                    <div class="section-title">Regulatory Status</div>
+                    <div class="section-subtitle">FDA approval and banned substance check</div>
+                </div>
+            </div>
+            
+            <div class="analysis-content" id="regulatoryContent">
+                Loading regulatory information...
+            </div>
+        </div>
+
+        <!-- Risk Analysis -->
+        <div class="analysis-section">
+            <div class="section-header">
+                <div class="section-icon">⚠️</div>
+                <div>
+                    <div class="section-title">Risk Analysis</div>
+                    <div class="section-subtitle">Drug interactions and contraindications</div>
+                </div>
+            </div>
+            
+            <div class="analysis-content" id="riskContent">
+                Loading risk analysis...
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="analysis-section">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <div>
+                    <div class="section-title">Recommendations</div>
+                    <div class="section-subtitle">Professional guidance and next steps</div>
+                </div>
+            </div>
+            
+            <div class="analysis-content" id="recommendationsContent">
+                Loading recommendations...
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/" class="new-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+    </svg>
+    New Search
+</a>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('query');
+    const type = urlParams.get('type') || 'search';
+    
+    if (query) {
+        document.getElementById('queryText').textContent = query;
+    }
+    
+    // Simulate loading and then show results
+    setTimeout(() => {
+        document.getElementById('loadingContainer').classList.remove('active');
+        document.getElementById('queryDisplay').style.display = 'block';
+        document.getElementById('resultsContainer').style.display = 'block';
+        loadResults(query, type);
+    }, 2000);
+});
+
+function loadResults(query, type) {
+    // Simulate API call with dummy data
+    const dummyResults = generateDummyResults(query, type);
+    
+    // Update status badges
+    updateStatusBadges(dummyResults.status);
+    
+    // Update content sections
+    document.getElementById('safetyContent').textContent = dummyResults.safety;
+    document.getElementById('regulatoryContent').textContent = dummyResults.regulatory;
+    document.getElementById('riskContent').textContent = dummyResults.risk;
+    document.getElementById('recommendationsContent').textContent = dummyResults.recommendations;
+}
+
+function updateStatusBadges(status) {
+    const badgesContainer = document.getElementById('statusBadges');
+    const badges = [];
+    
+    if (status.safety === 'safe') {
+        badges.push('<div class="status-badge badge-safe">✅ Generally Safe</div>');
+    } else if (status.safety === 'warning') {
+        badges.push('<div class="status-badge badge-warning">⚠️ Use with Caution</div>');
+    } else {
+        badges.push('<div class="status-badge badge-danger">🚫 High Risk</div>');
+    }
+    
+    if (status.approved) {
+        badges.push('<div class="status-badge badge-info">📋 FDA Approved</div>');
+    } else {
+        badges.push('<div class="status-badge badge-danger">❌ Not Approved</div>');
+    }
+    
+    if (status.banned) {
+        badges.push('<div class="status-badge badge-danger">🔴 Banned Substance</div>');
+    }
+    
+    badgesContainer.innerHTML = badges.join('');
+}
+
+function generateDummyResults(query, type) {
+    // Generate contextual dummy results based on query
+    const results = {
+        status: {
+            safety: 'safe',
+            approved: true,
+            banned: false
+        },
+        safety: '',
+        regulatory: '',
+        risk: '',
+        recommendations: ''
+    };
+    
+    if (type === 'upload') {
+        results.safety = `Document Analysis Complete\n\nAnalyzed pharmaceutical documents for banned substances and safety compliance. The uploaded documents contain information about various medications and their regulatory status.\n\nKey findings:\n• No banned substances detected in the reviewed medications\n• All mentioned drugs appear in approved pharmaceutical databases\n• Safety profiles are within acceptable ranges for their intended use\n• Proper documentation and labeling standards followed`;
+        
+        results.regulatory = `Regulatory Compliance Check\n\nFDA Approval Status: All medications mentioned in the uploaded documents have valid FDA approval numbers and are listed in the Orange Book database.\n\nDEA Schedule: None of the substances are classified as controlled substances requiring special handling.\n\nInternational Status: Medications are approved by major regulatory bodies including EMA (European Medicines Agency) and Health Canada.\n\nManufacturing Standards: All products meet GMP (Good Manufacturing Practice) requirements.`;
+        
+        results.risk = `Risk Assessment Summary\n\nOverall Risk Level: Low to Moderate\n\nPotential Interactions: Standard drug interaction profiles apply. No unusual or severe interaction risks identified.\n\nContraindications: Follow standard medical contraindications for each specific medication class.\n\nSpecial Populations: Normal precautions apply for pediatric, geriatric, and pregnant patients as per standard guidelines.`;
+        
+        results.recommendations = `Professional Recommendations\n\n1. Proceed with standard pharmaceutical protocols\n2. Follow established dosing guidelines for each medication\n3. Monitor patients for standard side effects and interactions\n4. Maintain proper storage and handling procedures\n5. Ensure patient counseling covers all relevant safety information\n\nNext Steps:\n• Consult with healthcare provider for patient-specific recommendations\n• Review individual medication monographs for detailed information\n• Implement standard pharmacovigilance protocols`;
+        
+    } else {
+        // Generate results based on search query keywords
+        if (query.toLowerCase().includes('child') || query.toLowerCase().includes('pediatric')) {
+            results.safety = `Pediatric Safety Analysis\n\nThis medication has specific considerations for pediatric use. Age-appropriate dosing and safety monitoring are essential.\n\nSafety Profile:\n• Generally considered safe for children when used appropriately\n• Requires weight-based dosing calculations\n• Regular monitoring of growth and development recommended\n• Side effect profile may differ from adults`;
+            
+            results.status.safety = 'warning';
+            
+        } else if (query.toLowerCase().includes('pregnan')) {
+            results.safety = `Pregnancy Safety Assessment\n\nThis medication requires careful evaluation during pregnancy and breastfeeding periods.\n\nRisk Categories:\n• Pregnancy Category B - Animal studies show no risk\n• Compatible with breastfeeding with monitoring\n• Benefits may outweigh potential risks in certain cases`;
+            
+        } else if (query.toLowerCase().includes('ban') || query.toLowerCase().includes('illegal')) {
+            results.safety = `Banned Substance Analysis\n\nComprehensive check against prohibited substance databases has been completed.\n\nFindings:\n• Not found in DEA banned substances list\n• Not classified as a controlled substance\n• Legal for medical use with proper prescription\n• Complies with current pharmaceutical regulations`;
+            
+        } else {
+            results.safety = `General Safety Assessment\n\nThis medication has been evaluated for general safety and regulatory compliance.\n\nSafety Summary:\n• Approved for medical use by relevant authorities\n• Well-established safety profile\n• Standard precautions and monitoring apply\n• Benefits outweigh risks when used appropriately`;
+        }
+        
+        results.regulatory = `Regulatory Status Summary\n\nFDA Approval: ✅ Approved\nDEA Schedule: Not scheduled\nPrescription Status: Prescription required\nManufacturing: GMP certified facilities\n\nThis medication is legally available through licensed healthcare providers and pharmacies. All manufacturing and distribution follows established regulatory guidelines.`;
+        
+        results.risk = `Risk Profile Analysis\n\nRisk Level: Low to Moderate\n\nCommon Side Effects:\n• Mild gastrointestinal upset\n• Headache\n• Dizziness\n\nDrug Interactions:\n• Standard interaction profile\n• Monitor with blood thinners\n• Avoid with certain antibiotics\n\nContraindications:\n• Known hypersensitivity\n• Severe liver impairment\n• Specific medical conditions as noted in prescribing information`;
+        
+        results.recommendations = `Clinical Recommendations\n\n1. Use only under medical supervision\n2. Follow prescribed dosing schedule\n3. Report any unusual side effects immediately\n4. Regular monitoring as recommended by healthcare provider\n5. Store according to package instructions\n\nPatient Education:\n• Understand proper usage and timing\n• Be aware of potential side effects\n• Know when to contact healthcare provider\n• Maintain regular follow-up appointments`;
+    }
+    
+    return results;
+}
+</script>
+</body>
+</html>
