@@ -163,7 +163,7 @@ def load_template(template_name):
 @app.route('/')
 def root():
     """Root route redirects to banportal"""
-    return redirect(url_for('banportal'))
+    return redirect(url_for('pharmai'))
 
 @app.route('/banportal')
 def banportal():
@@ -196,7 +196,7 @@ def analyze():
 @app.route('/esportal')
 def esportal():
     """Redirect esportal to banportal"""
-    return redirect(url_for('banportal'))
+    return redirect(url_for('pharmai'))
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
