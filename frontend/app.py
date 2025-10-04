@@ -7,12 +7,13 @@ import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'pharma-safe-secret-key-2024'
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = '../data'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Create upload directory if it doesn't exist
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
+upload_path = os.path.abspath(app.config['UPLOAD_FOLDER'])
+if not os.path.exists(upload_path):
+    os.makedirs(upload_path)
 
 # Allowed file extensions
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -23,10 +24,10 @@ def allowed_file(filename):
 def call_search_api(query):
     """
     Real API function to call the external search API
-    API Endpoint: http://82.112.235.26:8000/v1/pw_ai_answer
+    API Endpoint: http://82.112.235.26:8001/v1/pw_ai_answer
     Format: {"prompt": "query text"}
     """
-    api_url = "http://82.112.235.26:8000/v1/pw_ai_answer"
+    api_url = "http://82.112.235.26:8001/v1/pw_ai_answer"
     
     # Prepare the request data with the exact format from curl
     request_data = {
@@ -222,6 +223,71 @@ def upload_files():
     except Exception as e:
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
 
+@app.route('/api/upload-files', methods=['POST'])
+def api_upload_files():
+    """API endpoint for file upload with status notifications"""
+    try:
+        if 'files' not in request.files:
+            return jsonify({
+                'success': False,
+                'message': 'No files provided'
+            }), 400
+        
+        files = request.files.getlist('files')
+        if not files or all(file.filename == '' for file in files):
+            return jsonify({
+                'success': False,
+                'message': 'No files selected'
+            }), 400
+        
+        uploaded_files = []
+        uploaded_file_names = []
+        
+        # Process each file
+        for file in files:
+            if file and file.filename and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                
+                # Option 1: Direct file save (current implementation)
+                file_path = os.path.abspath(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file.save(file_path)
+                uploaded_files.append(file_path)
+                uploaded_file_names.append(filename)
+                print(f"📁 File uploaded successfully: {filename} -> {file_path}")
+                
+                # Option 2: External API call (if you want to use an API instead)
+                # upload_api_url = "http://82.112.235.26:8001/v1/pw_upload_document"
+                # files_data = {'file': (filename, file.read(), 'application/pdf')}
+                # response = requests.post(upload_api_url, files=files_data, timeout=60)
+                # if response.status_code == 200:
+                #     uploaded_files.append(filename)
+                #     uploaded_file_names.append(filename)
+                #     print(f"📁 File uploaded via API: {filename}")
+                # else:
+                #     print(f"❌ API upload failed for {filename}: {response.status_code}")
+        
+        if not uploaded_files:
+            return jsonify({
+                'success': False,
+                'message': 'No valid PDF files uploaded'
+            }), 400
+        
+        # Return success response
+        return jsonify({
+            'success': True,
+            'message': f'Successfully uploaded {len(uploaded_files)} file(s)',
+            'files': uploaded_file_names,
+            'count': len(uploaded_files),
+            'upload_path': os.path.abspath(app.config['UPLOAD_FOLDER'])
+        })
+        
+    except Exception as e:
+        print(f"❌ Upload Error: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': f'Upload failed: {str(e)}'
+        }), 500
+
 @app.route('/api/search', methods=['POST'])
 def api_search():
     """API endpoint for search queries"""
@@ -378,14 +444,14 @@ def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
-    print(" Starting PharmaSafe Server...")
-    print(" Access the application at: http://localhost:3000/banportal")
-    print(" API endpoints available at: /api/search and /api/analyze-documents")
-    print(" Health check at: /health")
-    print("\n To integrate with real APIs:")
-    print("   1. The search API is already integrated with: http://82.112.235.26:8000/v1/pw_ai_answer")
+    print("🚀 Starting PharmaSafe Server...")
+    print("🌐 Access the application at: http://localhost:8002/banportal")
+    print("📡 API endpoints available at: /api/search and /api/analyze-documents")
+    print("❤️ Health check at: /health")
+    print("\n🔧 To integrate with real APIs:")
+    print("   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer")
     print("   2. Replace call_document_analysis_api() function with your real upload API")
     print("   3. Update /api/analyze-documents endpoint when you get the real upload API")
-    print("\n Starting development server on port 3000...")
+    print("\n🎯 Starting development server on port 8002...")
     
-    app.run(debug=True, host='0.0.0.0', port=3000)
+    app.run(debug=True, host='0.0.0.0', port=8002)

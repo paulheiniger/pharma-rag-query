@@ -57,6 +57,9 @@ server.log
 # Cache
 Cache/
 Cache_Enhanced/
+
+# Frontend virtual environment
+frontend/nhanced/
 cache/
 .cache/
 

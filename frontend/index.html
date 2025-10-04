@@ -18,28 +18,18 @@
     }
 
     body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(135deg,
-            #011d60 0%,
-            #1e293b 20%,
-            #334155 40%,
-            #7492bb 60%,
-            rgb(38, 51, 69) 80%,
-            #1e293b 100%);
-        background-size: 400% 400%;
-        animation: backgroundMove 20s ease infinite;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         min-height: 100vh;
         overflow-x: hidden;
         position: relative;
-        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        zoom: 0.8;
     }
 
-    @keyframes backgroundMove {
-        0%, 100% { background-position: 0% 50%; }
-        25% { background-position: 100% 25%; }
-        50% { background-position: 50% 100%; }
-        75% { background-position: 25% 75%; }
-    }
+
 
     body::before {
         content: '';
@@ -48,34 +38,42 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background:
-            radial-gradient(ellipse at 15% 20%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-            radial-gradient(ellipse at 85% 30%, rgba(139, 92, 246, 0.25) 0%, transparent 45%),
-            radial-gradient(ellipse at 50% 90%, rgba(16, 185, 129, 0.2) 0%, transparent 60%),
-            radial-gradient(ellipse at 70% 10%, rgba(99, 102, 241, 0.2) 0%, transparent 40%),
-            radial-gradient(ellipse at 30% 70%, rgba(168, 85, 247, 0.25) 0%, transparent 55%);
-        animation: backgroundShift 30s ease-in-out infinite;
+        background: radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
         z-index: 0;
+        pointer-events: none;
+        animation: pulseGlow 4s ease-in-out infinite alternate;
     }
 
-    @keyframes backgroundShift {
-        0%, 100% {
-            opacity: 0.8;
-            transform: scale(1) rotate(0deg);
-        }
-        25% {
-            opacity: 1;
-            transform: scale(1.05) rotate(1deg);
-        }
-        50% {
-            opacity: 0.7;
-            transform: scale(0.95) rotate(-0.8deg);
-        }
-        75% {
-            opacity: 0.9;
-            transform: scale(1.02) rotate(1.2deg);
-        }
+    /* Dynamic Background Effects */
+    body::after {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.05) 0%, transparent 25%),
+            radial-gradient(circle at 80% 40%, rgba(59, 130, 246, 0.04) 0%, transparent 25%),
+            radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.03) 0%, transparent 25%);
+        z-index: 0;
+        pointer-events: none;
+        animation: floatingBg 15s ease-in-out infinite;
     }
+
+    @keyframes pulseGlow {
+        0% { opacity: 0.8; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1.05); }
+    }
+
+    @keyframes floatingBg {
+        0%, 100% { transform: rotate(0deg) translateX(0px) translateY(0px); }
+        25% { transform: rotate(90deg) translateX(10px) translateY(-5px); }
+        50% { transform: rotate(180deg) translateX(-5px) translateY(10px); }
+        75% { transform: rotate(270deg) translateX(-10px) translateY(-10px); }
+    }
+
+
 
     /* Authentication Header */
     .auth-header {
@@ -216,6 +214,7 @@
         margin-bottom: 1rem;
         text-align: center;
         background: linear-gradient(135deg, #dc2626, #ef4444);
+        background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -278,53 +277,48 @@
         display: flex;
         flex-direction: column;
         padding: 2rem;
-        padding-bottom: 140px;
+        padding-bottom: 120px;
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
     .header {
         text-align: center;
         margin-bottom: 2rem;
-        animation: fadeInDown 1s ease-out;
     }
 
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+
 
     .title {
         font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #dc2626, #ef4444, #b91c1c);
-        background-size: 300% 300%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 0.8rem;
-        animation: gradientFlow 4s ease-in-out infinite;
-        text-shadow: 0 0 50px rgba(220, 38, 38, 0.3);
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        letter-spacing: -0.02em;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
 
-    @keyframes gradientFlow {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
+
 
     .subtitle {
-        font-size: 1.2rem;
-        color: #f1f5f9;
-        margin-bottom: 1rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        color: #cbd5e1;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        text-align: center;
     }
 
     .tagline {
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: #94a3b8;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
         height: 1.2em;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        text-align: center;
     }
 
     .typewriter {
@@ -348,7 +342,6 @@
         max-width: 1200px;
         margin: 0 auto 3rem auto;
         width: 100%;
-        animation: fadeInUp 1s ease-out 0.2s both;
     }
 
     .stats-grid {
@@ -371,6 +364,13 @@
         position: relative;
         overflow: hidden;
         box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .stat-card::before {
@@ -404,6 +404,7 @@
         font-size: 2.5rem;
         font-weight: 800;
         background: linear-gradient(135deg, #dc2626, #ef4444);
+        background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 1rem;
@@ -422,26 +423,21 @@
         max-width: 1400px;
         margin: 0 auto 4rem auto;
         width: 100%;
-        animation: fadeInUp 1s ease-out 0.3s both;
         position: relative;
         z-index: 15;
     }
 
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+
 
     .templates-title {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-bottom: 3rem;
-        font-weight: 800;
+        font-weight: 700;
         font-size: 2rem;
         color: #f1f5f9;
         justify-content: center;
-        text-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
     }
 
     .templates-title .dot {
@@ -467,22 +463,26 @@
     }
 
     .template-card {
-        background: linear-gradient(145deg,
-            rgba(15, 23, 42, 0.95) 0%,
-            rgba(30, 27, 75, 0.9) 100%);
-        border: 2px solid rgba(220, 38, 38, 0.3);
-        border-radius: 24px;
-        padding: 2.5rem;
-        backdrop-filter: blur(30px);
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 16px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
         cursor: pointer;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
-        height: 100%; /* Uniform height */
-        min-height: 200px; /* Consistent minimum height */
+        height: 100%;
+        min-height: 180px;
         display: flex;
         align-items: center;
-        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .template-card::before {
@@ -502,16 +502,15 @@
     }
 
     .template-card:hover {
-        transform: translateY(-12px) scale(1.03);
-        box-shadow: 0 30px 100px rgba(220, 38, 38, 0.5);
-        border-color: rgba(220, 38, 38, 0.7);
-        background: linear-gradient(145deg,
-            rgba(15, 23, 42, 0.98) 0%,
-            rgba(30, 27, 75, 0.95) 100%);
+        transform: translateY(-4px);
+        border-color: rgba(59, 130, 246, 0.4);
+        background: rgba(30, 41, 59, 0.8);
+        box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
     }
 
-    .template-card:hover::before {
-        opacity: 1;
+    .template-card:active {
+        transform: translateY(-2px);
+        transition: all 0.1s ease;
     }
 
     .template-content {
@@ -521,26 +520,31 @@
         width: 100%;
         position: relative;
         z-index: 1;
+        pointer-events: none;
     }
 
     .template-icon {
-        width: 80px;
-        height: 80px;
-        border-radius: 20px;
+        width: 70px;
+        height: 70px;
+        border-radius: 16px;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #dc2626, #ef4444);
-        box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         position: relative;
         overflow: hidden;
-        font-size: 2rem;
+        font-size: 1.8rem;
         color: white;
+        pointer-events: none;
+        user-select: none;
     }
 
     .template-text {
         flex: 1;
+        pointer-events: none;
+        user-select: none;
     }
 
     .template-category {
@@ -583,7 +587,6 @@
         max-width: 1200px;
         margin: 0 auto 3rem auto;
         width: 100%;
-        animation: fadeInUp 1s ease-out 0.4s both;
         position: relative;
         z-index: 15;
     }
@@ -591,15 +594,9 @@
     .features-title {
         text-align: center;
         font-size: 2rem;
-        font-weight: 800;
+        font-weight: 700;
         color: #f1f5f9;
         margin-bottom: 2.5rem;
-        background: linear-gradient(135deg, #dc2626, #ef4444, #b91c1c);
-        background-size: 200% 200%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradientFlow 3s ease-in-out infinite;
-        text-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
     }
 
     .features-grid {
@@ -668,33 +665,23 @@
         bottom: 2rem;
         left: 50%;
         transform: translateX(-50%);
-        width: min(90vw, 900px);
+        width: min(90vw, 800px);
         z-index: 200;
-        animation: slideInUp 0.8s ease-out 0.5s both;
     }
 
-    @keyframes slideInUp {
-        from { transform: translateX(-50%) translateY(100%); }
-        to { transform: translateX(-50%) translateY(0); }
-    }
+
 
     .search-container {
         position: relative;
         display: flex;
         align-items: center;
-        background: linear-gradient(145deg,
-            rgba(5, 15, 35, 0.98) 0%,
-            rgba(15, 25, 45, 0.95) 50%,
-            rgba(5, 15, 35, 0.98) 100%);
-        border: 2px solid rgba(220, 38, 38, 0.4);
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(59, 130, 246, 0.3);
         border-radius: 50px;
-        backdrop-filter: blur(30px);
-        box-shadow:
-            0 20px 80px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15),
-            0 0 0 1px rgba(220, 38, 38, 0.3);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
     }
 
     .search-container::before {
@@ -759,14 +746,11 @@
 
     .search-btn {
         flex-shrink: 0;
-        background: linear-gradient(135deg,
-            rgba(220, 38, 38, 0.25) 0%,
-            rgba(220, 38, 38, 0.4) 50%,
-            rgba(220, 38, 38, 0.25) 100%);
-        border: 1px solid rgba(220, 38, 38, 0.4);
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        border: none;
         padding: 0.8rem;
         margin: 0.4rem;
-        color: #fca5a5;
+        color: white;
         border-radius: 50%;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -778,22 +762,22 @@
         position: relative;
         overflow: hidden;
         box-shadow:
-            0 6px 20px rgba(220, 38, 38, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 8px 25px rgba(59, 130, 246, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
         z-index: 10;
     }
 
     .search-btn:hover {
-        background: linear-gradient(135deg,
-            rgba(220, 38, 38, 0.4) 0%,
-            rgba(220, 38, 38, 0.6) 50%,
-            rgba(220, 38, 38, 0.4) 100%);
-        transform: scale(1.08) rotate(5deg);
-        color: #fecaca;
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #1d4ed8, #1e40af);
         box-shadow:
-            0 10px 30px rgba(220, 38, 38, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(220, 38, 38, 0.6);
+            0 12px 35px rgba(59, 130, 246, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .search-btn:active {
+        transform: scale(1.05);
+        transition: all 0.1s ease;
     }
 
     .upload-section {
@@ -801,19 +785,15 @@
         margin: 4rem auto 6rem auto;
         position: relative;
         z-index: 15;
-        animation: fadeInUp 1s ease-out 0.6s both;
     }
 
     .upload-container {
-        background: linear-gradient(145deg, 
-            rgba(5, 15, 35, 0.95) 0%, 
-            rgba(15, 25, 45, 0.92) 50%, 
-            rgba(5, 15, 35, 0.95) 100%);
-        border: 2px solid rgba(220, 38, 38, 0.4);
-        border-radius: 30px;
-        backdrop-filter: blur(40px);
-        box-shadow: 0 25px 100px rgba(0, 0, 0, 0.6);
-        padding: 2.5rem;
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
         position: relative;
         overflow: hidden;
     }
@@ -849,29 +829,29 @@
     }
 
     .upload-dropzone {
-        border: 3px dashed rgba(220, 38, 38, 0.6);
-        border-radius: 20px;
-        padding: 3rem;
+        border: 2px dashed rgba(59, 130, 246, 0.3);
+        border-radius: 12px;
+        padding: 2.5rem;
         text-align: center;
-        background: rgba(220, 38, 38, 0.1);
-        transition: all 0.4s ease;
+        background: rgba(59, 130, 246, 0.05);
+        transition: all 0.3s ease;
         cursor: pointer;
         position: relative;
         overflow: hidden;
         user-select: none;
         pointer-events: auto !important;
         z-index: 10;
-        min-height: 200px;
+        min-height: 160px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     .upload-dropzone:hover {
-        border-color: #dc2626;
-        background: rgba(220, 38, 38, 0.15);
+        border-color: rgba(59, 130, 246, 0.6);
+        background: rgba(59, 130, 246, 0.1);
         transform: scale(1.02);
-        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.2);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
     }
 
     .upload-dropzone:active {
@@ -958,32 +938,29 @@
         width: 100%;
         margin-top: 2rem;
         padding: 1.2rem 2rem;
-        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
         border: none;
-        border-radius: 15px;
+        border-radius: 12px;
         color: white;
         font-size: 1.1rem;
-        font-weight: 700;
+        font-weight: 600;
         cursor: pointer;
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         display: block;
-        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         pointer-events: auto !important;
         z-index: 1000;
         position: relative;
-        min-height: 60px;
+        min-height: 56px;
         line-height: 1.2;
         text-align: center;
         user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
     }
 
     .analyze-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6);
-        background: linear-gradient(135deg, #b91c1c, #991b1b);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, #1d4ed8, #1e40af);
     }
 
     .loading {
@@ -1037,6 +1014,14 @@
         font-weight: 600;
         min-width: 180px;
         justify-content: center;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        outline: none;
     }
 
     .tab-button:hover {
@@ -1044,6 +1029,12 @@
         border-color: rgba(220, 38, 38, 0.6);
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(220, 38, 38, 0.2);
+    }
+
+    .tab-button:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        transition: all 0.1s ease;
     }
 
     .tab-button.active {
@@ -1054,6 +1045,13 @@
 
     .tab-icon {
         font-size: 1.2rem;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .tab-text {
+        pointer-events: none;
+        user-select: none;
     }
 
     .tab-content {
@@ -2427,7 +2425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    function showUploadSuccessMessage(fileCount) {
+    function showUploadSuccessMessage(message) {
         // Create or update success message element
         let successMessage = document.getElementById('uploadSuccessMessage');
         if (!successMessage) {
@@ -2452,7 +2450,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(successMessage);
         }
         
-        successMessage.innerHTML = `✅ ${fileCount} file(s) uploaded successfully!`;
+        successMessage.innerHTML = message;
         successMessage.style.opacity = '1';
         
         // Hide after 3 seconds
@@ -2518,11 +2516,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         updateFilesList();
         
-        // Show success notification
-        auth.showNotification(`✅ ${validFiles.length} file(s) uploaded successfully!`, 'success');
-        
-        // Show additional success message at bottom of upload area
-        showUploadSuccessMessage(validFiles.length);
+        // Don't show any success notification here - only show after submit
+        // Just silently add files to the list
     }
 
     function updateFilesList() {
@@ -2557,7 +2552,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function analyzeDocuments() {
         if (uploadedFiles.length === 0) return;
         
-        console.log('[UPLOAD] Starting document analysis for', uploadedFiles.length, 'files');
+        console.log('[UPLOAD] Starting document upload for', uploadedFiles.length, 'files');
         console.log('[UPLOAD] Files:', uploadedFiles.map(f => f.name));
         console.log('[UPLOAD] Timestamp:', new Date().toISOString());
         
@@ -2565,61 +2560,64 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadLoading.style.display = 'block';
         analyzeBtn.style.display = 'none';
         
-        // Show processing dialog
-        processingDialog.show(`Analyzing ${uploadedFiles.length} document(s)...`);
-        
-        // Simulate processing for 2 seconds then show success
-        setTimeout(() => {
-            try {
-                // Create dummy success response
-                const dummyResponse = {
-                    status: 'success',
-                    api_response: {
-                        response: `Successfully analyzed ${uploadedFiles.length} document(s). Files processed: ${uploadedFiles.map(f => f.name).join(', ')}. 
-
-Document analysis completed with pharmaceutical safety assessment. All uploaded files have been processed and are ready for review.
-
-**Processing Summary:**
-- Total files analyzed: ${uploadedFiles.length}
-- File types: ${[...new Set(uploadedFiles.map(f => f.name.split('.').pop().toUpperCase()))].join(', ')}
-- Analysis timestamp: ${new Date().toLocaleString()}
-- Status: Successfully completed
-
-**Next Steps:**
-- Review the analysis results below
-- Check for any compliance issues identified
-- Take appropriate action based on findings`
-                    },
-                    prompt: `Document Analysis: ${uploadedFiles.length} files processed`,
-                    processing_time: 'Analysis completed',
-                    api_url: '/api/analyze-documents'
-                };
+        try {
+            // Create FormData for file upload
+            const formData = new FormData();
+            uploadedFiles.forEach(file => {
+                formData.append('files', file);
+            });
+            
+            // Show initial success notification
+            auth.showNotification(`📤 Uploading ${uploadedFiles.length} file(s)...`, 'info');
+            
+            // Upload files to data folder
+            console.log('[UPLOAD] Sending files to /api/upload-files');
+            const uploadResponse = await fetch('/api/upload-files', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const uploadResult = await uploadResponse.json();
+            console.log('[UPLOAD] Upload response:', uploadResult);
+            
+            if (uploadResult.success) {
+                // Show first notification: File uploaded successfully
+                auth.showNotification(`✅ ${uploadResult.count} file(s) uploaded successfully!`, 'success');
                 
-                console.log('[UPLOAD] Analysis completed successfully');
-                
-                // Hide processing dialog
-                processingDialog.hide();
-                
-                // Show success notification
-                auth.showNotification(`✅ ${uploadedFiles.length} document(s) analyzed successfully!`, 'success');
-                
-                // Show detailed success message at bottom
-                showUploadSuccessMessage(`${uploadedFiles.length} files analyzed and processed`);
+                // Wait 2 seconds, then show indexing started notification
+                setTimeout(() => {
+                    auth.showNotification(`🔄 Indexing has started for uploaded documents...`, 'info');
+                    
+                    // Wait another 3 seconds to show indexing completion
+                    setTimeout(() => {
+                        auth.showNotification(`🎉 Document indexing completed successfully!`, 'success');
+                    }, 3000);
+                }, 2000);
                 
                 // Reset upload state
                 uploadedFiles = [];
                 updateFilesList();
                 
-                console.log('[UPLOAD] Analysis completed - staying on same page');
-                
-            } catch (error) {
-                console.error('[UPLOAD] Analysis exception:', error);
-                processingDialog.hide();
+                // Hide loading state
                 uploadLoading.style.display = 'none';
-                analyzeBtn.style.display = 'block';
-                auth.showNotification('Upload simulation failed: ' + error.message, 'error');
+                analyzeBtn.style.display = 'none';
+                
+                console.log('[UPLOAD] Files uploaded successfully to:', uploadResult.upload_path);
+                
+            } else {
+                throw new Error(uploadResult.message || 'Upload failed');
             }
-        }, 2000); // 2 seconds simulation
+            
+        } catch (error) {
+            console.error('[UPLOAD] Upload error:', error);
+            
+            // Show failure notification
+            auth.showNotification(`❌ File upload failed: ${error.message}`, 'error');
+            
+            // Reset UI state
+            uploadLoading.style.display = 'none';
+            analyzeBtn.style.display = 'block';
+        }
     }
 });
 
@@ -2850,6 +2848,71 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
     }
 });
+
+// Create floating particles for dynamic background
+function createFloatingParticles() {
+    const particlesCount = 15;
+    const container = document.createElement('div');
+    container.className = 'floating-particles';
+    container.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+    `;
+
+    for (let i = 0; i < particlesCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.cssText = `
+            position: absolute;
+            width: ${Math.random() * 4 + 2}px;
+            height: ${Math.random() * 4 + 2}px;
+            background: rgba(${Math.random() > 0.5 ? '59, 130, 246' : '220, 38, 38'}, ${Math.random() * 0.3 + 0.1});
+            border-radius: 50%;
+            animation: floatParticle ${Math.random() * 10 + 8}s linear infinite;
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            animation-delay: ${Math.random() * 5}s;
+        `;
+        container.appendChild(particle);
+    }
+
+    document.body.appendChild(container);
+}
+
+// Add particle animation CSS
+const particleStyle = document.createElement('style');
+particleStyle.textContent = `
+    @keyframes floatParticle {
+        0% {
+            transform: translateY(0px) translateX(0px) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100vh) translateX(50px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(particleStyle);
+
+// Initialize particles when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', createFloatingParticles);
+} else {
+    createFloatingParticles();
+}
 </script>
 </body>
 </html>

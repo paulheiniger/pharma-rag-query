@@ -1,0 +1,12 @@
+# Flask web framework and extensions
+Flask>=2.3.0
+Werkzeug>=2.3.0
+
+# HTTP requests
+requests>=2.31.0
+
+# File handling and security
+secure-filename>=0.1.0
+
+# JSON handling (built-in with Python)
+# os, time modules (built-in with Python)
