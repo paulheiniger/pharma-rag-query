@@ -1,0 +1,358 @@
+# ==================================================================================
+# TRAEFIK DYNAMIC CONFIGURATION
+# ==================================================================================
+# This file contains TLS certificates and HTTP routing rules for Traefik
+# It includes both wildcard SSL certificates and various redirect/proxy rules
+#
+# IMPORTANT LESSONS LEARNED & BEST PRACTICES:
+# ==================================================================================
+#
+# 🔧 TRAEFIK PROVIDER CONFLICTS:
+# - Docker Provider (container labels) vs File Provider (this file) can conflict
+# - If a service has both, remove duplicate configs to avoid certificate issues
+# - Example: n8n had both Docker labels AND file config causing ACME conflicts
+# - Solution: Use Docker provider for containers, File provider for external redirects
+#
+# 🔐 CERTIFICATE MANAGEMENT:
+# - Wildcard certificates (*.lehana.in) cover all subdomains automatically
+# - Don't mix ACME challenge with wildcard certs - causes browser compatibility issues
+# - Remove "traefik.http.routers.*.tls.certresolver=*" when using wildcard
+#
+# 🐳 DOCKER NETWORKING:
+# - Connect containers to Traefik's network for internal communication
+# - Use container IPs (172.18.0.x) instead of host IPs for better performance
+# - Example: web-scraper moved from 82.112.235.26:3000 to 172.18.0.4:3000
+# - Command: docker network connect root_default <container-name>
+#
+# 🔄 VPS RESTART PROTECTION:
+# - Nginx on ports 80/443 conflicts with Traefik after restart
+# - Solution: Disable nginx auto-start, move to port 8080
+# - Always check for port conflicts when containers fail to start
+#
+# 📝 YAML BEST PRACTICES:
+# - Remove obsolete "version" attribute to avoid warnings
+# - Use consistent indentation and spacing
+# - Document each route's purpose and target application
+#
+# 🛠️ AUTOMATION TOOLS:
+# - website_redirection script (/root/code/os/website_redirection) automates adding new redirects
+# - Automatically detects server IP, validates DNS, tests redirects locally  
+# - Generates proper YAML, restarts Traefik, provides testing commands
+# - Full documentation: /root/code/os/website_redirection_docs.md
+# - Usage: ./website_redirection (interactive prompts guide the process)
+#
+# 🧪 TESTING METHODOLOGY:
+# - Use curl --resolve for local testing before DNS propagation
+# - Test both HTTP (should redirect to HTTPS) and HTTPS endpoints
+# - Verify path preservation in redirects with sample URLs
+# - Use 308 Permanent Redirect for SEO-friendly redirections
+#
+# 🌐 DNS REQUIREMENTS:
+# - All subdomains need A records pointing to server IP (82.112.235.26)
+# - Wildcard certificate covers DNS, but each subdomain needs explicit DNS record
+# - Example: api.lehana.in, portfolio.lehana.in, github.lehana.in
+#
+# ==================================================================================
+
+# ==================================================================================
+# TLS CERTIFICATES CONFIGURATION
+# ==================================================================================
+# Wildcard certificate for *.lehana.in and lehana.in obtained via Let's Encrypt
+# Certificate files are mounted from host at /etc/letsencrypt into Traefik container
+# See docker-compose.override.yml for volume mounting configuration
+tls:
+  certificates:
+    - certFile: /etc/letsencrypt/live/lehana.in/fullchain.pem
+      keyFile: /etc/letsencrypt/live/lehana.in/privkey.pem
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/letsencrypt/live/lehana.in/fullchain.pem
+        keyFile: /etc/letsencrypt/live/lehana.in/privkey.pem
+
+# ==================================================================================
+# HTTP ROUTING CONFIGURATION
+# ==================================================================================
+# Contains routers, services, and middlewares for handling web traffic
+# Supports both redirections and proxying to backend services
+# ==================================================================================
+
+http:
+  
+  # ================================================================================
+  # ROUTERS - Define traffic routing rules
+  # ================================================================================
+  routers:
+    
+    # --------------------------------------------------------------------------------
+    # SOCIAL MEDIA REDIRECTS - Personal branding shortcuts
+    # --------------------------------------------------------------------------------
+    
+    # Instagram Profile Redirect
+    # Routes: insta.lehana.in, ig.lehana.in, instagram.lehana.in
+    # Target: Personal Instagram profile @paras.lehana
+    instagram-redirect:
+      rule: Host(`insta.lehana.in`) || Host(`ig.lehana.in`) || Host(`instagram.lehana.in`)
+      entryPoints:
+        - web        # HTTP (port 80)
+        - websecure  # HTTPS (port 443)
+      tls: {}
+      middlewares:
+        - instagram-redirect
+      service: noop@internal
+
+    # LinkedIn Profile Redirect  
+    # Routes: linkedin.lehana.in, li.lehana.in
+    # Target: Professional LinkedIn profile
+    linkedin-redirect:
+      rule: Host(`linkedin.lehana.in`) || Host(`li.lehana.in`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - linkedin-redirect
+      service: noop@internal
+
+    # GitHub Profile Redirect
+    # Routes: github.lehana.in, gh.lehana.in  
+    # Target: GitHub repositories and code portfolio
+    github-redirect:
+      rule: Host(`github.lehana.in`) || Host(`gh.lehana.in`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - github-redirect
+      service: noop@internal
+
+    # YouTube Channel Redirect
+    # Routes: yt.lehana.in, youtube.lehana.in
+    # Target: YouTube channel @paraslehana
+    youtube-redirect:
+      rule: Host(`yt.lehana.in`) || Host(`youtube.lehana.in`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - youtube-redirect
+      service: noop@internal
+
+    # Test Redirect (Development/Testing)
+    # Route: test.lehana.in
+    # Target: example.com (for testing redirect functionality)
+    test-redirect:
+      rule: Host(`test.lehana.in`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - test-redirect
+      service: noop@internal
+
+    # --------------------------------------------------------------------------------
+    # API & APPLICATION SERVICES - Backend service proxying
+    # --------------------------------------------------------------------------------
+
+    # Web Scraper API Service
+    # Route: api.lehana.in
+    # Target: Internal Docker container web scraper (hierarchical web scraping API)
+    # Maps /scrape to internal /api/scrape endpoint
+    api-scraper:
+      rule: Host(`api.lehana.in`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - api-scraper-strip
+      service: web-scraper-service
+
+    # PharmaSafe Application
+    # Route: medical.lehana.in/pharmai
+    # Target: Flask application running on localhost:8002
+    # Pharmaceutical RAG system for drug safety analysis
+    pharma-frontend:
+      rule: Host(`medical.lehana.in`) && PathPrefix(`/pharmai`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - pharma-strip
+      service: pharma-frontend-service
+
+    # --------------------------------------------------------------------------------
+    # PORTFOLIO PROJECT REDIRECTS - Showcasing development work
+    # --------------------------------------------------------------------------------
+
+    # AI Support Mailer Application
+    # Route: portfolio.lehana.in/portal/mailer
+    # Target: AI-powered customer support email automation tool
+    # A Next.js application for generating automated support responses
+    portfolio-mailer:
+      rule: Host(`portfolio.lehana.in`) && PathPrefix(`/portal/mailer`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - portfolio-mailer-redirect
+      service: noop@internal
+
+    # FuturX College Discovery Platform
+    # Route: portfolio.lehana.in/redesign/futurx  
+    # Target: AI-powered college matching and discovery platform
+    # Helps students find perfect college matches using advanced AI algorithms
+    portfolio-futurx:
+      rule: Host(`portfolio.lehana.in`) && PathPrefix(`/redesign/futurx`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - portfolio-futurx-redirect
+      service: noop@internal
+
+    # Universal Vercel App Redirect (v0 Pattern)
+    # Route: portfolio.lehana.in/v0/{app-name}
+    # Target: Dynamic redirect to any Vercel-hosted application
+    # Example: /v0/my-app -> my-app.vercel.app
+    portfolio-v0:
+      rule: Host(`portfolio.lehana.in`) && PathPrefix(`/v0/`)
+      entryPoints:
+        - web
+        - websecure
+      tls: {}
+      middlewares:
+        - portfolio-v0-redirect
+      service: noop@internal
+
+  # ================================================================================  
+  # SERVICES - Backend service definitions
+  # ================================================================================
+  services:
+    
+    # Web Scraper Service (Internal Docker Container)
+    # Hierarchical web scraping API running on Express.js
+    # Container IP: 172.18.0.4 (connected to Traefik's Docker network)
+    web-scraper-service:
+      loadBalancer:
+        servers:
+          - url: "http://172.18.0.4:3000"
+
+    # PharmaSafe Frontend Service (Flask Application)
+    # Pharmaceutical RAG system running on host machine
+    # Using Docker gateway IP to reach host from container
+    pharma-frontend-service:
+      loadBalancer:
+        servers:
+          - url: "http://172.18.0.1:8002"
+
+  # ================================================================================
+  # MIDDLEWARES - Traffic modification and routing logic  
+  # ================================================================================
+  middlewares:
+    
+    # --------------------------------------------------------------------------------
+    # SOCIAL MEDIA REDIRECT MIDDLEWARES
+    # --------------------------------------------------------------------------------
+    
+    # Instagram Profile Redirect
+    # Captures any path after the domain and preserves it in the Instagram URL
+    # Example: ig.lehana.in/posts -> instagram.com/paras.lehana/posts
+    instagram-redirect:
+      redirectRegex:
+        regex: "^https?://(?:insta|ig|instagram)\\.lehana\\.in(?:/(.*))?$"
+        replacement: "https://www.instagram.com/paras.lehana/${1}"
+        permanent: true
+
+    # LinkedIn Profile Redirect  
+    # Redirects to professional LinkedIn profile with path preservation
+    # Example: li.lehana.in/posts -> linkedin.com/in/paraslehana/posts
+    linkedin-redirect:
+      redirectRegex:
+        regex: "^https?://(?:linkedin|li)\\.lehana\\.in(?:/(.*))?$"
+        replacement: "https://www.linkedin.com/in/paraslehana/${1}"
+        permanent: true
+
+    # GitHub Profile Redirect
+    # Redirects to GitHub profile/repositories with path preservation  
+    # Example: gh.lehana.in/repositories -> github.com/paraslehana/repositories
+    github-redirect:
+      redirectRegex:
+        regex: "^https?://(?:github|gh)\\.lehana\\.in(?:/(.*))?$"
+        replacement: "https://github.com/paraslehana/${1}"
+        permanent: true
+
+    # YouTube Channel Redirect
+    # Redirects to YouTube channel with path preservation
+    # Example: yt.lehana.in/videos -> youtube.com/@paraslehana/videos  
+    youtube-redirect:
+      redirectRegex:
+        regex: "^https?://(?:yt|youtube)\\.lehana\\.in(?:/(.*))?$"
+        replacement: "https://youtube.com/@paraslehana/${1}"
+        permanent: true
+
+    # Test Redirect (Development/Testing)
+    # Simple redirect to example.com for testing redirect functionality
+    test-redirect:
+      redirectRegex:
+        regex: "^https?://(?:test)\\.lehana\\.in(?:/(.*))?$"
+        replacement: "https://example.com/${1}"
+        permanent: true
+
+    # --------------------------------------------------------------------------------
+    # API SERVICE MIDDLEWARES
+    # --------------------------------------------------------------------------------
+    
+    # API Path Rewriter for Web Scraper
+    # Maps external /scrape endpoint to internal /api/scrape
+    # Example: api.lehana.in/scrape -> internal container /api/scrape
+    api-scraper-strip:
+      replacePathRegex:
+        regex: "^/scrape(.*)$"
+        replacement: "/api/scrape$1"
+
+    # PharmaSafe Path Prefix Stripper
+    # Strips /pharmai prefix before forwarding to Flask app
+    # Example: medical.lehana.in/pharmai/analyze -> localhost:8002/analyze
+    pharma-strip:
+      stripPrefix:
+        prefixes:
+          - "/pharmai"
+
+    # --------------------------------------------------------------------------------  
+    # PORTFOLIO PROJECT REDIRECT MIDDLEWARES
+    # --------------------------------------------------------------------------------
+
+    # AI Support Mailer Redirect
+    # Redirects to AI-powered email automation tool hosted on Vercel
+    # Preserves any additional paths for deep linking
+    portfolio-mailer-redirect:
+      redirectRegex:
+        regex: "^https?://portfolio\\.lehana\\.in/portal/mailer/?(.*)$"
+        replacement: "https://ai-support-mailer.vercel.app/$1"
+        permanent: true
+
+    # FuturX College Platform Redirect  
+    # Redirects to AI college discovery platform hosted on Vercel
+    # FuturX helps students find perfect college matches using AI algorithms
+    portfolio-futurx-redirect:
+      redirectRegex:
+        regex: "^https?://portfolio\\.lehana\\.in/redesign/futurx/?(.*)$"
+        replacement: "https://futurx.vercel.app/$1" 
+        permanent: true
+
+    # Universal Vercel App Redirect (Dynamic)
+    # Pattern-based redirect for any Vercel application
+    # Captures app name and forwards to corresponding .vercel.app domain
+    # Example: /v0/my-nextjs-app/dashboard -> my-nextjs-app.vercel.app/dashboard
+    portfolio-v0-redirect:
+      redirectRegex:
+        regex: "^https?://portfolio\\.lehana\\.in/v0/([^/]+)/?(.*)$"
+        replacement: "https://$1.vercel.app/$2"
+        permanent: true

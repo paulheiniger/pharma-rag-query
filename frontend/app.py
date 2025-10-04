@@ -144,17 +144,17 @@ def load_template(template_name):
 
 @app.route('/')
 def root():
-    """Root route redirects to banportal"""
-    return redirect(url_for('banportal'))
-
-@app.route('/banportal')
-def banportal():
-    """Main page route for banned pharma portal"""
+    """Root route - main pharma AI portal (accessed via medical.lehana.in/pharmai)"""
     try:
         template = load_template('index.html')
         return render_template_string(template)
     except Exception as e:
         return f"Error loading index page: {str(e)}", 500
+
+@app.route('/pharmai')
+def pharmai():
+    """Legacy pharmai route - redirects to root for reverse proxy compatibility"""
+    return redirect(url_for('root'))
 
 @app.route('/analyze')
 def analyze():
@@ -163,7 +163,7 @@ def analyze():
     analysis_type = request.args.get('type', 'search')
     
     if not query and analysis_type == 'search':
-        return redirect(url_for('banportal'))
+        return redirect(url_for('root'))
     
     try:
         # Call API for search queries
@@ -177,8 +177,9 @@ def analyze():
 
 @app.route('/esportal')
 def esportal():
-    """Redirect esportal to banportal"""
-    return redirect(url_for('banportal'))
+    """Redirect esportal to root"""
+    return redirect(url_for('root'))
+    return redirect(url_for('pharmai'))
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
@@ -445,7 +446,7 @@ def internal_error(error):
 
 if __name__ == '__main__':
     print("🚀 Starting PharmaSafe Server...")
-    print("🌐 Access the application at: http://localhost:8002/banportal")
+    print("🌐 Access the application at: http://localhost:8002/pharmai")
     print("📡 API endpoints available at: /api/search and /api/analyze-documents")
     print("❤️ Health check at: /health")
     print("\n🔧 To integrate with real APIs:")

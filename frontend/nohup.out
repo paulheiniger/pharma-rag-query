@@ -1,0 +1,119 @@
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/pharmai
+📡 API endpoints available at: /api/search and /api/analyze-documents
+❤️ Health check at: /health
+
+🔧 To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+🎯 Starting development server on port 8002...
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8002
+ * Running on http://82.112.235.26:8002
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 670-169-746
+172.18.0.3 - - [04/Oct/2025 02:30:39] "GET / HTTP/1.1" 200 -
+172.18.0.3 - - [04/Oct/2025 02:30:41] "GET / HTTP/1.1" 200 -
+ * Detected change in '/root/code/python-host/pharma-rag-query/frontend/app.py', reloading
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/pharmai
+📡 API endpoints available at: /api/search and /api/analyze-documents
+❤️ Health check at: /health
+
+🔧 To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+🎯 Starting development server on port 8002...
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 670-169-746
+172.18.0.3 - - [04/Oct/2025 02:39:31] "GET / HTTP/1.1" 200 -
+117.220.161.115 - - [04/Oct/2025 02:40:10] code 400, message Bad request version ('À\x13À')
+117.220.161.115 - - [04/Oct/2025 02:40:10] "[31m[1m\x16\x03\x01\x01\x1e\x01\x00\x01\x1a\x03\x03W\x17\x7fðÍ\x8eò¨ðHÜ\x8c\x11&¶\x0d§,.(ðÃDÛ[È<y\x90öKÇ \x168·\x93×\x85=\x8c!¿@K¯^k\x0bu{É®¬\x86\x1c\x0c\x02ÀÑ~\x9e©L\x7f\x00.\x13\x01\x13\x02\x13\x03\x13\x04\x13\x05À+À/À,À0Ì©Ì¨À\x09À\x13À[0m" 400 -
+103.118.50.250 - - [04/Oct/2025 02:40:11] code 400, message Bad request version ('\x18±*')
+103.118.50.250 - - [04/Oct/2025 02:40:11] "[31m[1m\x16\x03\x01\x06º\x01\x00\x06¶\x03\x03¬¢\x11®}ø\x17ü\x96Â\x93\x17E\x11¶õ\x8a5\x0f\x0c\x08ìâj\x1cÑÞzy-Ó\x83 c\x84\x17wF;\x0e\x04¬\x08¶\x97G\x91\x8as9Â¼\x7feïXÕå\x1d\x18±*[0m" 400 -
+103.118.50.250 - - [04/Oct/2025 02:40:11] code 400, message Bad request version ('\x02h2\x08http/1.1\x00\x00\x00\x16\x00\x14\x00\x00\x11medical.lehana.inÿ\x01\x00\x01\x00\x00\x05\x00\x05\x01\x00\x00\x00\x00DÍ\x00\x05\x00\x03\x02h2\x00')
+103.118.50.250 - - [04/Oct/2025 02:40:11] "[31m[1m\x16\x03\x01\x06ú\x01\x00\x06ö\x03\x03¨Y\x14\x07 \x0b\x80çà(4ûY÷úÂëÛþÔÃ\x1eT>5E¸¡ê´\x0cú M%Q(©åÔ³ö\x19£b0dÙ\x13oFPK'ÑÔ\\dVÃÎ5O®ñ\x00 zz\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06\x8dJJ\x00\x00\x00\x1b\x00\x03\x02\x00\x02\x00\x12\x00\x00\x00#\x00\x00\x00\x0d\x00\x12\x00\x10\x04\x03\x08\x04\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01\x00+\x00\x07\x06jj\x03\x04\x03\x03\x00\x10\x00\x0e\x00\x0c\x02h2\x08http/1.1\x00\x00\x00\x16\x00\x14\x00\x00\x11medical.lehana.inÿ\x01\x00\x01\x00\x00\x05\x00\x05\x01\x00\x00\x00\x00DÍ\x00\x05\x00\x03\x02h2\x00[0m" 400 -
+172.18.0.3 - - [04/Oct/2025 02:40:16] "GET / HTTP/1.1" 200 -
+ * Detected change in '/root/code/python-host/pharma-rag-query/frontend/app.py', reloading
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/pharmai
+📡 API endpoints available at: /api/search and /api/analyze-documents
+❤️ Health check at: /health
+
+🔧 To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+🎯 Starting development server on port 8002...
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 670-169-746
+172.18.0.3 - - [04/Oct/2025 02:42:18] "[32mGET / HTTP/1.1[0m" 302 -
+172.18.0.3 - - [04/Oct/2025 02:42:27] "[32mGET / HTTP/1.1[0m" 302 -
+ * Detected change in '/root/code/python-host/pharma-rag-query/frontend/app.py', reloading
+ Starting PharmaSafe Server...
+ Access the application at: http://localhost:3000/banportal
+ API endpoints available at: /api/search and /api/analyze-documents
+ Health check at: /health
+
+ To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+ Starting development server on port 3000...
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 670-169-746
+ * Detected change in '/root/code/python-host/pharma-rag-query/frontend/app.py', reloading
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/pharmai
+📡 API endpoints available at: /api/search and /api/analyze-documents
+❤️ Health check at: /health
+
+🔧 To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+🎯 Starting development server on port 8002...
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 670-169-746
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/pharmai
+📡 API endpoints available at: /api/search and /api/analyze-documents
+❤️ Health check at: /health
+
+🔧 To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+🎯 Starting development server on port 8002...
+ * Serving Flask app 'app'
+ * Debug mode: on
+Address already in use
+Port 8002 is in use by another program. Either identify and stop that program, or start the server with a different port.
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/pharmai
+📡 API endpoints available at: /api/search and /api/analyze-documents
+❤️ Health check at: /health
+
+🔧 To integrate with real APIs:
+   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer
+   2. Replace call_document_analysis_api() function with your real upload API
+   3. Update /api/analyze-documents endpoint when you get the real upload API
+
+🎯 Starting development server on port 8002...
