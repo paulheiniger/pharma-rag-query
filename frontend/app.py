@@ -144,7 +144,7 @@ def load_template(template_name):
 
 @app.route('/')
 def root():
-    """Root route - main pharma AI portal (accessed via medical.lehana.in/pharmai)"""
+    """Root route - serve the main pharma AI portal"""
     try:
         template = load_template('index.html')
         return render_template_string(template)
@@ -153,9 +153,14 @@ def root():
 
 @app.route('/pharmai')
 def pharmai():
-    """Legacy pharmai route - redirects to root for reverse proxy compatibility"""
-    return redirect(url_for('root'))
+    """Main pharma AI portal - same as root for Traefik compatibility"""
+    try:
+        template = load_template('index.html')
+        return render_template_string(template)
+    except Exception as e:
+        return f"Error loading index page: {str(e)}", 500
 
+@app.route('/pharmai/analyze')
 @app.route('/analyze')
 def analyze():
     """Analysis results page route"""
@@ -163,7 +168,7 @@ def analyze():
     analysis_type = request.args.get('type', 'search')
     
     if not query and analysis_type == 'search':
-        return redirect(url_for('root'))
+        return redirect('/')
     
     try:
         # Call API for search queries
@@ -175,12 +180,13 @@ def analyze():
     except Exception as e:
         return f"Error loading results page: {str(e)}", 500
 
+@app.route('/pharmai/esportal')
 @app.route('/esportal')
 def esportal():
-    """Redirect esportal to root"""
-    return redirect(url_for('root'))
-    return redirect(url_for('pharmai'))
+    """Redirect esportal to main page"""
+    return redirect('/')
 
+@app.route('/pharmai/upload', methods=['POST'])
 @app.route('/upload', methods=['POST'])
 def upload_files():
     """Handle file upload and analysis"""
@@ -219,11 +225,12 @@ def upload_files():
         
         # Redirect to results page with upload type
         query_param = f"Document Analysis: {len(uploaded_files)} files processed"
-        return redirect(url_for('analyze', query=query_param, type='upload'))
+        return redirect(f'/analyze?query={query_param}&type=upload')
         
     except Exception as e:
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
 
+@app.route('/pharmai/api/upload-files', methods=['POST'])
 @app.route('/api/upload-files', methods=['POST'])
 def api_upload_files():
     """API endpoint for file upload with status notifications"""
@@ -289,6 +296,7 @@ def api_upload_files():
             'message': f'Upload failed: {str(e)}'
         }), 500
 
+@app.route('/pharmai/api/search', methods=['POST'])
 @app.route('/api/search', methods=['POST'])
 def api_search():
     """API endpoint for search queries"""
@@ -308,6 +316,7 @@ def api_search():
         print(f"❌ Backend API Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/pharmai/api/analyze-documents', methods=['POST'])
 @app.route('/api/analyze-documents', methods=['POST'])
 def api_analyze_documents():
     """API endpoint for document analysis - REPLACE WITH YOUR REAL API"""
@@ -351,6 +360,7 @@ def api_analyze_documents():
         print(f"❌ Upload API Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/pharmai/api/list-documents', methods=['POST', 'OPTIONS'])
 @app.route('/api/list-documents', methods=['POST', 'OPTIONS'])
 def list_documents():
     """Fetch list of documents from the RAG database"""
@@ -419,6 +429,7 @@ def list_documents():
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
 
+@app.route('/pharmai/health')
 @app.route('/health')
 def health_check():
     """Health check endpoint"""
@@ -446,13 +457,16 @@ def internal_error(error):
 
 if __name__ == '__main__':
     print("🚀 Starting PharmaSafe Server...")
-    print("🌐 Access the application at: http://localhost:8002/pharmai")
-    print("📡 API endpoints available at: /api/search and /api/analyze-documents")
-    print("❤️ Health check at: /health")
-    print("\n🔧 To integrate with real APIs:")
-    print("   1. The search API is already integrated with: http://82.112.235.26:8001/v1/pw_ai_answer")
-    print("   2. Replace call_document_analysis_api() function with your real upload API")
-    print("   3. Update /api/analyze-documents endpoint when you get the real upload API")
+    print("🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai")
+    print("📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)")
+    print("❤️ Health check: /health or /pharmai/health")
+    print("\n🔧 Dual routes configured for Traefik compatibility:")
+    print("   • Main app: / and /pharmai")
+    print("   • Analyze: /analyze and /pharmai/analyze")
+    print("   • APIs: /api/* and /pharmai/api/*")
+    print("\n🌐 Works with Traefik reverse proxy:")
+    print("   • medical.lehana.in/pharmai → Flask /")
+    print("   • medical.lehana.in/pharmai/api/search → Flask /api/search")
     print("\n🎯 Starting development server on port 8002...")
     
     app.run(debug=True, host='0.0.0.0', port=8002)

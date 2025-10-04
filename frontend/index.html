@@ -2301,11 +2301,16 @@ async function makeSearchAPICall(query) {
             controller.abort();
         }, 120000); // 2 minutes = 120000ms
         
+        // Construct API URL relative to current path
+        const apiUrl = window.location.pathname.endsWith('/') ? 
+            window.location.pathname + 'api/search' : 
+            window.location.pathname + '/api/search';
+        
         console.log('🚀 SENDING FETCH REQUEST NOW!');
-        console.log('📍 URL: /api/search');
+        console.log('📍 URL:', apiUrl);
         console.log('📦 Body: ' + JSON.stringify(requestData));
         
-        const response = await fetch('/api/search', {
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -2343,7 +2348,7 @@ async function makeSearchAPICall(query) {
             
             // Navigate to results page immediately - processing dialog will stay until result page loads
             console.log('[FRONTEND] Navigating to results page');
-            window.location.href = `/analyze?query=${encodeURIComponent(query)}`;
+            window.location.href = `pharmai/analyze?query=${encodeURIComponent(query)}`;
         } else {
             console.error('[FRONTEND] API returned error:', data);
             // Handle API error
@@ -2570,9 +2575,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show initial success notification
             auth.showNotification(`📤 Uploading ${uploadedFiles.length} file(s)...`, 'info');
             
+            // Construct upload API URL relative to current path
+            const uploadApiUrl = window.location.pathname.endsWith('/') ? 
+                window.location.pathname + 'api/upload-files' : 
+                window.location.pathname + '/api/upload-files';
+            
             // Upload files to data folder
-            console.log('[UPLOAD] Sending files to /api/upload-files');
-            const uploadResponse = await fetch('/api/upload-files', {
+            console.log('[UPLOAD] Sending files to', uploadApiUrl);
+            const uploadResponse = await fetch(uploadApiUrl, {
                 method: 'POST',
                 body: formData
             });
@@ -2672,9 +2682,14 @@ document.addEventListener('DOMContentLoaded', function() {
         noDocsEl.style.display = 'none';
         
         try {
-            console.log('Fetching documents from API...');
+            // Construct documents API URL relative to current path
+            const documentsApiUrl = window.location.pathname.endsWith('/') ? 
+                window.location.pathname + 'api/list-documents' : 
+                window.location.pathname + '/api/list-documents';
             
-            const response = await fetch('/api/list-documents', {
+            console.log('Fetching documents from API:', documentsApiUrl);
+            
+            const response = await fetch(documentsApiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
