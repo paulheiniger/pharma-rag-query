@@ -117,3 +117,532 @@ Port 8002 is in use by another program. Either identify and stop that program, o
    3. Update /api/analyze-documents endpoint when you get the real upload API
 
 🎯 Starting development server on port 8002...
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai
+📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)
+❤️ Health check: /health or /pharmai/health
+
+🔧 Dual routes configured for Traefik compatibility:
+   • Main app: / and /pharmai
+   • Analyze: /analyze and /pharmai/analyze
+   • APIs: /api/* and /pharmai/api/*
+
+🌐 Works with Traefik reverse proxy:
+   • medical.lehana.in/pharmai → Flask /
+   • medical.lehana.in/pharmai/api/search → Flask /api/search
+
+🎯 Starting development server on port 8002...
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8002
+ * Running on http://82.112.235.26:8002
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 107-135-802
+172.18.0.2 - - [04/Oct/2025 05:54:23] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 06:05:12] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 06:17:22] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 06:17:50] "POST /api/search HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 06:17:54] "GET /analyze?query=Check%20elderly%20patient%20safety%20for%20Digoxin%20dosage%20adjustments HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 06:20:09] "GET /analyze?query=Check%20elderly%20patient%20safety%20for%20Digoxin%20dosage%20adjustments HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 06:22:36] "GET / HTTP/1.1" 200 -
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai
+📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)
+❤️ Health check: /health or /pharmai/health
+
+🔧 Dual routes configured for Traefik compatibility:
+   • Main app: / and /pharmai
+   • Analyze: /analyze and /pharmai/analyze
+   • APIs: /api/* and /pharmai/api/*
+
+🌐 Works with Traefik reverse proxy:
+   • medical.lehana.in/pharmai → Flask /
+   • medical.lehana.in/pharmai/api/search → Flask /api/search
+
+🎯 Starting development server on port 8002...
+ * Serving Flask app 'app'
+ * Debug mode: on
+Address already in use
+Port 8002 is in use by another program. Either identify and stop that program, or start the server with a different port.
+172.18.0.2 - - [04/Oct/2025 06:30:29] "GET / HTTP/1.1" 200 -
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai
+📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)
+❤️ Health check: /health or /pharmai/health
+
+🔧 Dual routes configured for Traefik compatibility:
+   • Main app: / and /pharmai
+   • Analyze: /analyze and /pharmai/analyze
+   • APIs: /api/* and /pharmai/api/*
+
+🌐 Works with Traefik reverse proxy:
+   • medical.lehana.in/pharmai → Flask /
+   • medical.lehana.in/pharmai/api/search → Flask /api/search
+
+🎯 Starting development server on port 8002...
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8002
+ * Running on http://82.112.235.26:8002
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 833-429-173
+172.18.0.2 - - [04/Oct/2025 07:05:18] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:05:34] "POST /api/list-documents HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:05:45] "POST /api/search HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:05:50] "GET /analyze?query=What%20are%20the%20penalties%20for%20manufacturing%20banned%20drugs%20and%20what%20are%20the%20compliance%20requirements? HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:05:55] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:06:00] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:06:10] "POST /api/search HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:06:14] "GET /analyze?query=What%20are%20the%20penalties%20for%20manufacturing%20banned%20drugs%20and%20what%20are%20the%20compliance%20requirements? HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:06:15] "POST /api/list-documents HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:06:18] "POST /api/list-documents HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:06:33] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:08:28] "GET / HTTP/1.1" 200 -
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai
+📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)
+❤️ Health check: /health or /pharmai/health
+
+🔧 Dual routes configured for Traefik compatibility:
+   • Main app: / and /pharmai
+   • Analyze: /analyze and /pharmai/analyze
+   • APIs: /api/* and /pharmai/api/*
+
+🌐 Works with Traefik reverse proxy:
+   • medical.lehana.in/pharmai → Flask /
+   • medical.lehana.in/pharmai/api/search → Flask /api/search
+
+🎯 Starting development server on port 8002...
+
+[DOCUMENTS] === FETCHING DOCUMENT LIST ===
+[DOCUMENTS] Request method: POST
+[DOCUMENTS] Timestamp: 2025-10-04 07:05:34
+[DOCUMENTS] Calling API: http://api.lehana.in:8001/v1/pw_list_documents
+[DOCUMENTS] API Response Status: 200
+[DOCUMENTS] Retrieved 15 documents
+📥 Received prompt from frontend: What are the penalties for manufacturing banned drugs and what are the compliance requirements?
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '412', 'Date': 'Sat, 04 Oct 2025 07:05:45 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?",
+  "api_response": {
+    "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '514', 'Date': 'Sat, 04 Oct 2025 07:05:50 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under sections 27, 27A, and 27C of the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, inventory reporting to State Drug Controllers, and submission of compliance certificates within specified timeframes."
+}
+📥 Received prompt from frontend: What are the penalties for manufacturing banned drugs and what are the compliance requirements?
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '412', 'Date': 'Sat, 04 Oct 2025 07:06:10 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?",
+  "api_response": {
+    "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '412', 'Date': 'Sat, 04 Oct 2025 07:06:14 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+
+[DOCUMENTS] === FETCHING DOCUMENT LIST ===
+[DOCUMENTS] Request method: POST
+[DOCUMENTS] Timestamp: 2025-10-04 07:06:14
+[DOCUMENTS] Calling API: http://api.lehana.in:8001/v1/pw_list_documents
+[DOCUMENTS] API Response Status: 200
+[DOCUMENTS] Retrieved 15 documents
+
+[DOCUMENTS] === FETCHING DOCUMENT LIST ===
+[DOCUMENTS] Request method: POST
+[DOCUMENTS] Timestamp: 2025-10-04 07:06:17
+[DOCUMENTS] Calling API: http://api.lehana.in:8001/v1/pw_list_documents
+[DOCUMENTS] API Response Status: 200
+[DOCUMENTS] Retrieved 15 documents
+📥 Received prompt from frontend: What are the penalties for manufacturing banned drugs and what are the compliance requirements?
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+172.18.0.2 - - [04/Oct/2025 07:29:51] "POST /api/search HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:29:56] "GET /analyze?query=What%20are%20the%20penalties%20for%20manufacturing%20banned%20drugs%20and%20what%20are%20the%20compliance%20requirements? HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:31:24] "POST /api/search HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:31:28] "GET /analyze?query=nimesulide%20and%20paracetamo%20banned%20in%20india HTTP/1.1" 200 -
+172.18.0.2 - - [04/Oct/2025 07:36:18] "GET / HTTP/1.1" 200 -
+52.167.144.67 - - [05/Oct/2025 00:49:29] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+207.46.13.102 - - [05/Oct/2025 00:49:40] "GET / HTTP/1.1" 200 -
+162.216.149.53 - - [05/Oct/2025 05:58:45] code 400, message Bad request version ('p1')
+162.216.149.53 - - [05/Oct/2025 05:58:45] "[31m[1m\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03îK@K\x1aÓgFx¼ßô\x86igl\x843-\x92\x03*óÁ\x87<:ôF\x94Úý ¾\x14ÛAåü\x85p1[0m" 400 -
+162.216.149.53 - - [05/Oct/2025 05:58:45] code 400, message Bad request version ('À(À$À\x14À')
+162.216.149.53 - - [05/Oct/2025 05:58:45] "[31m[1m\x16\x03\x01\x00Ê\x01\x00\x00Æ\x03\x03\x9cv\x80\x1eIÇ\x8b\x12æÅ\x18F\x08k\x00v«çt\x05]jíô\x98\x83\x9fe\x8a\x977;\x00\x00hÌ\x14Ì\x13À/À+À0À,À\x11À\x07À'À#À\x13À\x09À(À$À\x14À[0m" 400 -
+207.46.13.156 - - [05/Oct/2025 19:20:49] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [06/Oct/2025 05:07:56] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [06/Oct/2025 05:08:18] "POST /api/search HTTP/1.1" 200 -
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '515', 'Date': 'Sat, 04 Oct 2025 07:29:51 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under sections 27, 27A, and 27C of the Drugs and Cosmetics Act, 1940, with compliance requirements mandating immediate production cessation, stock recall, inventory reporting to State Drug Controllers, and submission of compliance certificates within specified timeframes."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?",
+  "api_response": {
+    "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under sections 27, 27A, and 27C of the Drugs and Cosmetics Act, 1940, with compliance requirements mandating immediate production cessation, stock recall, inventory reporting to State Drug Controllers, and submission of compliance certificates within specified timeframes."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '412', 'Date': 'Sat, 04 Oct 2025 07:29:56 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+📥 Received prompt from frontend: nimesulide and paracetamo banned in india
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'nimesulide and paracetamo banned in india'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "nimesulide and paracetamo banned in india"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '295', 'Date': 'Sat, 04 Oct 2025 07:31:24 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on CDSCO regulations and Indian Government notifications, nimesulide has been banned for pediatric use (children under 12 years) due to serious liver toxicity risks, while paracetamol remains approved and widely used as a safe analgesic and antipyretic medication in India."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "nimesulide and paracetamo banned in india",
+  "api_response": {
+    "response": "Based on CDSCO regulations and Indian Government notifications, nimesulide has been banned for pediatric use (children under 12 years) due to serious liver toxicity risks, while paracetamol remains approved and widely used as a safe analgesic and antipyretic medication in India."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'nimesulide and paracetamo banned in india'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "nimesulide and paracetamo banned in india"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '284', 'Date': 'Sat, 04 Oct 2025 07:31:28 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on CDSCO regulations and Indian Government gazette notifications, nimesulide has been banned for pediatric use (children under 12 years) due to hepatotoxicity risks, while paracetamol remains approved and widely used as a safe analgesic and antipyretic in India."
+}
+📥 Received prompt from frontend: What are the penalties for manufacturing banned drugs and what are the compliance requirements?
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '413', 'Date': 'Mon, 06 Oct 2025 05:08:18 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulations, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with mandatory compliance requirements including immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?",
+  "api_response": {
+    "response": "Based on the Indian Government gazette notifications and CDSCO regulations, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with mandatory compliance requirements including immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+172.18.0.2 - - [06/Oct/2025 05:08:22] "GET /analyze?query=What%20are%20the%20penalties%20for%20manufacturing%20banned%20drugs%20and%20what%20are%20the%20compliance%20requirements? HTTP/1.1" 200 -
+207.46.13.78 - - [06/Oct/2025 15:18:40] "GET / HTTP/1.1" 200 -
+80.94.92.23 - - [06/Oct/2025 21:56:31] code 400, message Bad request version ('À\x14À')
+80.94.92.23 - - [06/Oct/2025 21:56:31] "[31m[1m\x16\x03\x01\x00{\x01\x00\x00w\x03\x03HØ$ð¹\x93»\x08\x91ê+Ð\x1f\x83Å\x10ÉÂçÇÄ\x0e­6\x18\x94\x0e^Ói\x08\x8f\x00\x00\x1aÀ/À+À\x11À\x07À\x13À\x09À\x14À[0m" 400 -
+207.46.13.128 - - [06/Oct/2025 22:49:25] "GET / HTTP/1.1" 200 -
+172.18.0.2 - - [07/Oct/2025 18:34:29] "GET /analyze?query=Check%20elderly%20patient%20safety%20for%20Digoxin%20dosage%20adjustments HTTP/1.1" 200 -
+172.18.0.2 - - [07/Oct/2025 18:34:33] "[32mGET /analyze HTTP/1.1[0m" 302 -
+52.167.144.55 - - [08/Oct/2025 04:20:54] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+52.167.144.146 - - [08/Oct/2025 04:20:57] "GET / HTTP/1.1" 200 -
+40.77.167.68 - - [09/Oct/2025 00:40:13] "GET / HTTP/1.1" 200 -
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai
+📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)
+❤️ Health check: /health or /pharmai/health
+
+🔧 Dual routes configured for Traefik compatibility:
+   • Main app: / and /pharmai
+   • Analyze: /analyze and /pharmai/analyze
+   • APIs: /api/* and /pharmai/api/*
+
+🌐 Works with Traefik reverse proxy:
+   • medical.lehana.in/pharmai → Flask /
+   • medical.lehana.in/pharmai/api/search → Flask /api/search
+
+🎯 Starting development server on port 8002...
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8002
+ * Running on http://82.112.235.26:8002
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 454-438-505
+172.18.0.4 - - [12/Oct/2025 08:53:02] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 08:53:23] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 08:54:43] "POST /api/search HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 08:54:47] "POST /api/search HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 08:54:59] "GET /analyze?query=What%20are%20the%20penalties%20for%20manufacturing%20banned%20drugs%20and%20what%20are%20the%20compliance%20requirements? HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 08:55:04] "GET /analyze?query=Verify%20if%20Oxycodone%20is%20approved%20by%20FDA%20and%20not%20on%20the%20banned%20list HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:00:52] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:01:36] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:02:04] "GET / HTTP/1.1" 200 -
+🚀 Starting PharmaSafe Server...
+🌐 Access the application at: http://localhost:8002/ or http://localhost:8002/pharmai
+📡 API endpoints: /api/search, /api/upload-files (with /pharmai prefix support)
+❤️ Health check: /health or /pharmai/health
+
+🔧 Dual routes configured for Traefik compatibility:
+   • Main app: / and /pharmai
+   • Analyze: /analyze and /pharmai/analyze
+   • APIs: /api/* and /pharmai/api/*
+
+🌐 Works with Traefik reverse proxy:
+   • medical.lehana.in/pharmai → Flask /
+   • medical.lehana.in/pharmai/api/search → Flask /api/search
+
+🎯 Starting development server on port 8002...
+📥 Received prompt from frontend: What are the penalties for manufacturing banned drugs and what are the compliance requirements?
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+📥 Received prompt from frontend: Verify if Oxycodone is approved by FDA and not on the banned list
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'Verify if Oxycodone is approved by FDA and not on the banned list'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "Verify if Oxycodone is approved by FDA and not on the banned list"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '422', 'Date': 'Sun, 12 Oct 2025 08:54:43 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with mandatory compliance requirements including immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?",
+  "api_response": {
+    "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with mandatory compliance requirements including immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'What are the penalties for manufacturing banned drugs and what are the compliance requirements?'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "What are the penalties for manufacturing banned drugs and what are the compliance requirements?"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '334', 'Date': 'Sun, 12 Oct 2025 08:54:47 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on regulatory documents and CDSCO notifications, Oxycodone is classified as a controlled substance under Schedule X of the Drugs and Cosmetics Act, requiring strict prescription monitoring and is subject to enhanced regulatory oversight by the Indian Government due to its high potential for abuse and addiction."
+}
+📤 Sending response to frontend: {
+  "status": "success",
+  "prompt": "Verify if Oxycodone is approved by FDA and not on the banned list",
+  "api_response": {
+    "response": "Based on regulatory documents and CDSCO notifications, Oxycodone is classified as a controlled substance under Schedule X of the Drugs and Cosmetics Act, requiring strict prescription monitoring and is subject to enhanced regulatory oversight by the Indian Government due to its high potential for abuse and addiction."
+  },
+  "api_url": "http://82.112.235.26:8001/v1/pw_ai_answer",
+  "processing_time": "API call completed"
+}
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'Verify if Oxycodone is approved by FDA and not on the banned list'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "Verify if Oxycodone is approved by FDA and not on the banned list"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '412', 'Date': 'Sun, 12 Oct 2025 08:54:59 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on the Indian Government gazette notifications and CDSCO regulatory documents, manufacturing banned drugs carries severe penalties including imprisonment up to 10 years, fines up to Rs. 10 lakhs, and license cancellation under the Drugs and Cosmetics Act 1940, with compliance requirements mandating immediate production cessation, stock recall, and quarterly reporting to drug controllers."
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '331', 'Date': 'Sun, 12 Oct 2025 08:55:04 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on regulatory documents and CDSCO guidelines, Oxycodone is classified as a controlled substance under Schedule X of the Drugs and Cosmetics Act, requiring strict prescription monitoring and is subject to enhanced regulatory oversight by the Indian Government due to its high potential for abuse and addiction."
+}
+📥 Received prompt from frontend: Verify if Oxycodone is approved by FDA and not on the banned list
+
+🚀 === BACKEND: Flask → External API ===
+🎯 External API URL: http://82.112.235.26:8001/v1/pw_ai_answer
+🔑 Key: 'prompt'
+📝 Value: 'Verify if Oxycodone is approved by FDA and not on the banned list'
+📡 Making external API call...
+📡 Sending request...
+🌐 URL: http://82.112.235.26:8001/v1/pw_ai_answer
+📦 Headers: {'Content-Type': 'application/json'}
+📝 JSON Body: {
+  "prompt": "Verify if Oxycodone is approved by FDA and not on the banned list"
+}
+✅ Response Status: 200
+📋 Response Headers: {'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '331', 'Date': 'Sun, 12 Oct 2025 09:02:32 GMT', 'Server': 'Python/3.12 aiohttp/3.12.15'}
+✅ API Response: {
+  "response": "Based on regulatory documents and CDSCO guidelines, Oxycodone is classified as a controlled substance under Schedule X of the Drugs and Cosmetics Act, requiring strict prescription monitoring and is subject to enhanced regulatory oversight by the Indian Government due to its high potential for abuse and addiction."
+}
+172.18.0.4 - - [12/Oct/2025 09:02:32] "POST /api/search HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:02:38] "GET /analyze?query=Verify%20if%20Oxycodone%20is%20approved%20by%20FDA%20and%20not%20on%20the%20banned%20list HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:03:03] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:03:08] "POST /api/list-documents HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:05:41] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:08:39] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:08:50] "POST /api/search HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 09:08:57] "GET /analyze?query=Check%20if%20Thalidomide%20is%20banned%20or%20restricted%20in%20pregnancy HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 10:45:40] "GET / HTTP/1.1" 200 -
+172.18.0.4 - - [12/Oct/2025 17:27:45] "GET / HTTP/1.1" 200 -

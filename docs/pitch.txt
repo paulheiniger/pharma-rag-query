@@ -1,0 +1,22 @@
+Over 60,000 drugs in India across 60 categories. These numbers reach millions if Fixed Dose Combinations are taken into account. Paracetamol is not banned, but Nimesulide + Paracetamol is forbidden for a specific dosage and age!
+
+For many complex and newly banned FDCs, even Google and LLMs fail because they are based on indexed knowledge. CDSCO, the drug regulator in India, is notrequirede to publish banned drugs on Googl.In fact, these drugs are not available on Google unlessae a news article covers them or CDSCO releases a consolidated PDF. 
+
+The CDSCO website shows a PDF for last year, but the agency is banning dozens of medicines every month. The price of non-compliance is ultimately borne by:
+- Pharma companies incur legal expenses or even licence revocation
+- Users who don't have access to or the expertise in getting the latest status of the drug they are using. 
+- Doctors / Pharmacists: Our research noted that Doctors and pharmacists have no single way of checking the compliance status of a medicine. They rely on their college notices, Medical Representatives or just word-of-mouth. This ultimately impacts the patients in India, as many cases of non-compliant drugs are being administered. 
+
+We propose a No-Fail solution to this:
+
+- Our GenAI solution ingests authentic gazettes from CDSCO, which is mandated under section 26 of the Drugs and Cosmetics Act 1940 to publish the regulations in the Gazette of India. So, they can't fail here. 
+
+- Reading Gazette, then staying orders on them by the High Court and the Supreme Court, like in the case of Pfizer, is difficult and needs expertise. Our solution simplifies the document content, medical compliance and legal statements to build an up-to-date database on medicines. 
+
+- We understand the Rural-Urban and Digital Divide in India, and to keep us aligned with the Themes of Thales, we offer an Android Application and Web Portal where users can query for any medicine in their preferred language. The GenAI responds to the user, including Text-to-Speech in the user's language. 
+
+- The web portal is role-based, where users can query about the drugs, doctors have access to the whole database of medicines, and regulators can see the gazettes, judicial orders and all other documents ingested or can even correct or add to the database. But as we said, our system is real-time, so it ingests the gazettes as soon as CDSCO publishes them. 
+
+- Thales can offer this to pharma companies, which will save them huge legal compliance costs. In addition to the drug status and detailed information, we also provide the judicial order and Gazette PDF, which companies can use to respond to CDSCO notices that the latter can't deny. 
+
+- To align more with the Thales theme, we provide an offline database for the rural population, too. The app DB is regularly synced with the masterDB, allowing the status of the medication to be queried without a network. 

@@ -161,6 +161,7 @@ question_answerer: !pw.xpacks.llm.question_answering.BaseRAGQuestionAnswerer
   llm: $llm                          # Links to OpenRouter Claude Sonnet 4 LLM
   indexer: $document_store           # Links to CDSCO regulatory document store
   prompt_template: $prompt_template  # Links to government compliance system prompt
+  search_topk: 10                    # Number of retrieved document chunks for analysis
 
 # ============================================================================
 # Server Network Configuration  
