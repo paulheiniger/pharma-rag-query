@@ -298,5 +298,3 @@ For issues and questions:
 1. Check the troubleshooting section above
 2. Review Pathway documentation: https://pathway.com/developers
 3. Open an issue in the repository
-
----
