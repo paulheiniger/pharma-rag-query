@@ -300,5 +300,3 @@ For issues and questions:
 3. Open an issue in the repository
 
 ---
-
-**Built with ❤️ for pharmaceutical compliance and regulatory monitoring**
